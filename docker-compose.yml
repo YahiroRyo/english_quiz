@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+
+  node:
+    build:
+      context: ./client
+    container_name: english-quiz-client
+    tty: true
+    environment:
+      TZ: "Asia/Tokyo"
+      HOST: "0.0.0.0"
+    volumes:
+      - ./client:/home/client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - php
+  
+  php:
+    build: ./api
+    tty: true
+    container_name: english-quiz-api
+    volumes:
+      - ./api:/var/www/html
+    environment:
+      TZ: Asia/Tokyo
+    command: "sh -c 'bash /var/www/html/bin/init.sh && apache2-foreground'"
+    ports:
+      - "8000:80"
+    depends_on:
+      - psql
+  
+  psql:
+    build:
+      context: ./database
+    container_name: english-quiz-db
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      PGPASSWORD: docker
+      POSTGRES_DB: main
+      TZ: "Asia/Tokyo"
+    ports:
+      - 50432:5432
+    volumes:
+      - ./database/data:/var/lib/postgresql/data

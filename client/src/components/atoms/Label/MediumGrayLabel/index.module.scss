@@ -1,0 +1,7 @@
+@use "@/styles/color.scss" as *;
+
+.label {
+  color: colors("gray");
+  font-weight: bold;
+  font-size: 1rem;
+}

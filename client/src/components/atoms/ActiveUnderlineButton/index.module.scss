@@ -1,0 +1,31 @@
+.button {
+    border: 0;
+    color: #ed6d34;
+    font-weight: bold;
+    transition: 0.3s;
+    background-color: #fff;
+    display: inline-block;
+    font-size: 0.9rem;
+    padding: 0 1.5rem;
+    position: relative;
+    height: 100%;
+
+    &:after {
+        bottom: 0.1rem;
+        content: '';
+        position: absolute;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: #ed6034;
+    }
+
+    &:hover {
+        color: #f38f70;
+        cursor: pointer;
+
+        &:after {
+            background-color: #f39f70;
+        }
+    }
+}

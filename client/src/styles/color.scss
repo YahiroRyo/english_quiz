@@ -1,0 +1,16 @@
+$colors: (
+  orange: #f39f70,
+  red: #ed6d34,
+  error: #ee4f4f,
+  darkOrange: #b08c60,
+  gray: #666666,
+  lightGray: #cccccc,
+  darkWhite: #f2f2f2,
+  white: #fcfbfa,
+  lightWhite: #ffffff,
+  dark: #34536f,
+);
+
+@function colors($key) {
+  @return map-get($colors, $key);
+}

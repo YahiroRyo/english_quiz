@@ -1,0 +1,8 @@
+@use "@/styles/color.scss" as *;
+
+.text {
+  color: colors("error");
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin: 0;
+}

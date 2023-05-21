@@ -1,0 +1,10 @@
+.nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+
+  &Link {
+    height: 100%;
+  }
+}

@@ -1,0 +1,15 @@
+@use "@/styles/color.scss" as *;
+
+.header {
+  align-items: center;
+  box-shadow: 0 8px 1rem rgba(colors(darkOrange), 0.25);
+  box-sizing: border-box;
+  background-color: colors(lightWhite);
+  display: flex;
+  height: 54px;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
+}
