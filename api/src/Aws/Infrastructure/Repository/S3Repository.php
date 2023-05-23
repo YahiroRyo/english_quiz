@@ -9,7 +9,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
-class S3Repository implements \Eng\Aws\Repository\Interface\S3Repository
+class S3Repository implements \Eng\Aws\Infrastructure\Repository\Interface\S3Repository
 {
     public function putImage(PutImageDTO $putImageDTO): S3ImageDTO
     {

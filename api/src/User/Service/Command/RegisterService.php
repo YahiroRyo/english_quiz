@@ -35,7 +35,7 @@ class RegisterService
                 15,
             ));
 
-            $createdUser = $this->userRepo->createUser(UserDTO::from(
+            $createdUser = $this->userRepo->upsert(UserDTO::from(
                 InitUserConstants::DEFAULT_USER_ID,
                 $initUserDTO->getUsername(),
                 $initUserDTO->getPassword(),

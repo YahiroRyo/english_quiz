@@ -62,29 +62,48 @@ class UserRepository implements \Eng\User\Infrastructure\Repository\Interface\Us
         );
     }
 
-    public function createUser(UserDTO $userDTO): UserDTO
+    public function upsert(UserDTO $userDTO): UserDTO
     {
-        /** @var User */
-        $user = User::create([
+        /** @var ?User */
+        $user = User::doesntHave('nonActiveUser')
+            ->with('activeUser')
+            ->find($userDTO->getUserId());
+
+        if (!$user) {
+            /** @var User */
+            $user = User::create([
+                'username' => $userDTO->getUsername(),
+                'password' => $userDTO->getPassword(),
+            ]);
+            /** @var ActiveUser */
+            $activeUser = ActiveUser::create([
+                'personality' => $userDTO->getPersonality(),
+                'name'        => $userDTO->getName(),
+                'icon'        => $userDTO->getIcon(),
+            ]);
+
+            return UserDTO::from(
+                $user->getUserId(),
+                $user->getUsername(),
+                $user->getPassword(),
+                '',
+                $activeUser->getPersonality(),
+                $activeUser->getName(),
+                $activeUser->getIcon(),
+            );
+        }
+
+        $user->update([
             'username' => $userDTO->getUsername(),
             'password' => $userDTO->getPassword(),
         ]);
-        /** @var ActiveUser */
-        $activeUser = ActiveUser::create([
+        $user->getActiveUser()->update([
             'personality' => $userDTO->getPersonality(),
             'name'        => $userDTO->getName(),
             'icon'        => $userDTO->getIcon(),
         ]);
 
-        return UserDTO::from(
-            $user->getUserId(),
-            $user->getUsername(),
-            $user->getPassword(),
-            '',
-            $activeUser->getPersonality(),
-            $activeUser->getName(),
-            $activeUser->getIcon(),
-        );
+        return $userDTO;
     }
 
     public function createTokenByUserId(int $userId): UserDTO
