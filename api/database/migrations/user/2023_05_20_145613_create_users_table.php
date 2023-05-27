@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->string('username', 255)->unique();
             $table->string('password', 255);
             $table->rememberToken();
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

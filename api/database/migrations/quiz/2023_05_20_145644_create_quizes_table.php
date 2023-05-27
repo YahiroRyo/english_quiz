@@ -13,13 +13,13 @@ return new class () extends Migration {
             $table->id('quiz_id');
 
             $table->foreignId('user_id');
-            $table->foreignId('category_id');
+            $table->foreignId('quiz_category_id');
             $table->text('prompt');
             $table->text('question');
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->useCurrent();
 
             $table->foreign('user_id')->references('user_id')->on('users');
-            $table->foreign('category_id')->references('category_id')->on('categories');
+            $table->foreign('quiz_category_id')->references('quiz_category_id')->on('quiz_categories');
         });
     }
 

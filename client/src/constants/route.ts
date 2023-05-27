@@ -3,4 +3,5 @@ export const ROUTE_PATHNAME = {
   REGISTER: "/register",
   LOGIN: "/login",
   LOGOUT: "/logout",
+  QUIZ: "/quiz",
 } as const;

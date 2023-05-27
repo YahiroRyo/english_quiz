@@ -1,0 +1,28 @@
+@use "@/styles/color.scss" as *;
+
+.button {
+  background-color: colors(lightWhite);
+  color: colors(red);
+  font-weight: bold;
+  border: 1px solid colors(red);
+  padding: 1rem 3rem;
+  border-radius: 0.25rem;
+  letter-spacing: 1px;
+  display: block;
+  width: 100%;
+  transition: 0.3s;
+
+  &:disabled {
+    box-shadow: 0 0 0;
+    background-color: colors(red);
+    opacity: 0.32;
+  }
+  &:hover {
+    background-color: rgba(colors(red), 0.05);
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+}

@@ -3,9 +3,19 @@ import styles from "./index.module.scss";
 
 type Props = ComponentProps<"button">;
 
-export const DarkOrangeButton = ({ children, disabled }: Props) => {
+export const DarkOrangeButton = ({
+  children,
+  type,
+  disabled,
+  onClick,
+}: Props) => {
   return (
-    <button className={styles.button} disabled={disabled}>
+    <button
+      onClick={onClick}
+      type={type}
+      className={styles.button}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

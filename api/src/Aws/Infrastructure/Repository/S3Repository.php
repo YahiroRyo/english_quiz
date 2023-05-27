@@ -19,7 +19,7 @@ class S3Repository implements \Eng\Aws\Infrastructure\Repository\Interface\S3Rep
         $tmpFileNameForThumbnail = $tmpFileName . '_thumbnail';
 
         $putImageDTO->getImage()->save($tmpFileNameForThumbnail, $putImageDTO->getQuality(), 'jpg');
-        $putImageDTO->getImage()->save($tmpFileName, $putImageDTO->getQuality(), 'jpg');
+        $putImageDTO->getImage()->save($tmpFileName, $putImageDTO->getThumbnailQuality(), 'jpg');
 
         /** @var \Illuminate\Filesystem\FilesystemAdapter */
         $s3Storage = Storage::disk('s3');

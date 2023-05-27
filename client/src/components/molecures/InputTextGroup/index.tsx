@@ -3,6 +3,7 @@ import { MediumGrayLabel } from "@/components/atoms/Label/MediumGrayLabel";
 import { UseFormRegister } from "react-hook-form";
 import { ValidationError } from "../ValidationError";
 import styles from "./index.module.scss";
+import { Require } from "@/components/atoms/Label/Require";
 
 export const InputTextGroupDesignType = {
   gray: "gray",
@@ -16,6 +17,7 @@ type Props = {
   name: string;
   displayName: string;
   placeholder: string;
+  require: boolean;
 
   register: UseFormRegister<any>;
   validation: { [key: string]: any };
@@ -29,6 +31,7 @@ export const InputTextGroup = ({
   name,
   validation,
 
+  require,
   register,
   displayName,
   placeholder,
@@ -37,7 +40,10 @@ export const InputTextGroup = ({
   if (designType === InputTextGroupDesignType.gray) {
     return (
       <div className={styles.inputTextGroup}>
-        <MediumGrayLabel>{displayName}</MediumGrayLabel>
+        <MediumGrayLabel>
+          {displayName}
+          {require ? <Require /> : <></>}
+        </MediumGrayLabel>
         <InputMediumGrayText
           register={register}
           type={type}

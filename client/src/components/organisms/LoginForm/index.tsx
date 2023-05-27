@@ -10,6 +10,7 @@ import { useState } from "react";
 import { ErrorResponse, errorDictToString } from "@/types/response";
 import { useRouter } from "next/router";
 import { ROUTE_PATHNAME } from "@/constants/route";
+import { ERROR_MESSAGE } from "@/constants/api";
 
 export const LoginForm = () => {
   const {
@@ -41,7 +42,7 @@ export const LoginForm = () => {
         return;
       }
 
-      setError("不明なエラーが発生しました。");
+      setError(ERROR_MESSAGE.UNKNOWN_ERROR);
       return;
     }
   };
@@ -64,6 +65,7 @@ export const LoginForm = () => {
         name="username"
         displayName="ユーザー名"
         placeholder="example"
+        require={false}
         error={errors?.username?.message}
       />
       <InputTextGroup
@@ -80,6 +82,7 @@ export const LoginForm = () => {
         }}
         name="password"
         placeholder=""
+        require={false}
         error={errors?.password?.message}
       />
 

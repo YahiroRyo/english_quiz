@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Quiz;
+namespace Eng\Quiz\Infrastructure\Eloquent;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +14,7 @@ class Quiz extends Model
     protected $primaryKey = 'quiz_id';
     protected $fillable = [
         'user_id',
-        'category_id',
+        'quiz_category_id',
         'prompt',
         'question',
     ];

@@ -7,18 +7,16 @@ import { useEffect } from "react";
 
 const Logout = () => {
   const router = useRouter();
-  const [_, setUser] = useAuth();
+  const [user, setUser] = useAuth();
 
   useEffect(() => {
     const main = async () => {
       try {
-        await apiLogout();
-        setUser(undefined);
-        router.push(ROUTE_PATHNAME.LOGIN);
-      } catch (e) {
-        setUser(undefined);
-        router.push(ROUTE_PATHNAME.LOGIN);
-      }
+        await apiLogout(user?.token!);
+      } catch (e) {}
+
+      setUser(undefined);
+      router.push(ROUTE_PATHNAME.LOGIN);
     };
 
     main();

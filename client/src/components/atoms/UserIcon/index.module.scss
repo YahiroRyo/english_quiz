@@ -1,0 +1,8 @@
+@use "@/styles/color.scss" as *;
+
+.icon {
+  background-color: colors(darkWhite);
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}

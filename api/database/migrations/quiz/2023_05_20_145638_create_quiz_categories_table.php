@@ -5,16 +5,16 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    private string $tableName = 'categories';
+    private string $tableName = 'quiz_categories';
 
     public function up(): void
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->id('category_id');
+            $table->id('quiz_category_id');
 
             $table->string('name', 255);
             $table->string('formal_name', 255);
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

@@ -6,6 +6,7 @@ use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Response\User\LoginResponse;
 use App\Http\Response\User\LogoutResponse;
+use App\Http\Response\User\RegsiterResponse;
 use Eng\User\Service\Command\LoginService;
 use Eng\User\Service\Command\LogoutService;
 use Eng\User\Service\Command\RegisterService;
@@ -46,6 +47,6 @@ class UserController extends Controller
     {
         $registeredUser = $this->registerService->execute($request->toDTO());
 
-        return LogoutResponse::success($registeredUser);
+        return RegsiterResponse::success($registeredUser);
     }
 }

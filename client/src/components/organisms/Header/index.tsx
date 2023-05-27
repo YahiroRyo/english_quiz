@@ -1,9 +1,16 @@
 import { NavigationElement } from "@/components/molecures/NavigationBar/types";
 import { NavigationBar } from "@/components/molecures/NavigationBar";
 import { ROUTE_PATHNAME } from "@/constants/route";
-import style from "./index.module.scss";
+import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/user/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBook,
+  faRightFromBracket,
+  faRightToBracket,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const Header = () => {
   const router = useRouter();
@@ -12,27 +19,48 @@ export const Header = () => {
   const unLoggedInNavigationElementList: NavigationElement[] = [
     {
       pathname: ROUTE_PATHNAME.REGISTER,
-      content: "登録",
+      content: (
+        <div className={styles.navigationElement}>
+          <FontAwesomeIcon icon={faUserPlus} />
+          {"登録"}
+        </div>
+      ),
     },
     {
       pathname: ROUTE_PATHNAME.LOGIN,
-      content: "ログイン",
+      content: (
+        <div className={styles.navigationElement}>
+          <FontAwesomeIcon icon={faRightToBracket} />
+          {"ログイン"}
+        </div>
+      ),
     },
   ];
+
   const loggedInNavigationElementList: NavigationElement[] = [
     {
-      pathname: ROUTE_PATHNAME.LOGOUT,
-      content: "ログアウト",
+      pathname: ROUTE_PATHNAME.TOP,
+      content: (
+        <div className={styles.navigationElement}>
+          <FontAwesomeIcon icon={faBook} />
+          {"問題を解く"}
+        </div>
+      ),
     },
     {
-      pathname: ROUTE_PATHNAME.TOP,
-      content: "トップ",
+      pathname: ROUTE_PATHNAME.LOGOUT,
+      content: (
+        <div className={styles.navigationElement}>
+          <FontAwesomeIcon icon={faRightFromBracket} />
+          {"ログアウト"}
+        </div>
+      ),
     },
   ];
 
   if (user) {
     return (
-      <header className={style.header}>
+      <header className={styles.header}>
         <NavigationBar
           currentPathname={router.pathname}
           navigationElementList={loggedInNavigationElementList}
@@ -42,7 +70,7 @@ export const Header = () => {
   }
 
   return (
-    <header className={style.header}>
+    <header className={styles.header}>
       <NavigationBar
         currentPathname={router.pathname}
         navigationElementList={unLoggedInNavigationElementList}

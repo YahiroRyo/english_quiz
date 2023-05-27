@@ -15,14 +15,10 @@ class UserRepository implements \Eng\User\Infrastructure\Repository\Interface\Us
 {
     public function findMe(): UserDTO
     {
-        /** @var ?User */
+        /** @var User */
         $user = User::doesntHave('nonActiveUser')
             ->with('activeUser')
-            ->find(auth()->id());
-
-        if (!$user) {
-            throw new ModelNotFoundException();
-        }
+            ->findOrFail(auth()->id());
 
         return UserDTO::from(
             $user->getUserId(),
@@ -108,15 +104,11 @@ class UserRepository implements \Eng\User\Infrastructure\Repository\Interface\Us
 
     public function createTokenByUserId(int $userId): UserDTO
     {
-        /** @var ?User */
+        /** @var User */
         $user = User::doesntHave('nonActiveUser')
             ->with('activeUser')
             ->where('user_id', $userId)
-            ->first();
-
-        if (!$user) {
-            throw new ModelNotFoundException();
-        }
+            ->firstOrFail();
 
         $createdToken = $user->createToken(config('app.key'))->plainTextToken;
 
@@ -133,13 +125,10 @@ class UserRepository implements \Eng\User\Infrastructure\Repository\Interface\Us
 
     public function deleteTokenByUserIdAndToken(int $userId, string $token): UserDTO
     {
-        /** @var ?User */
+        /** @var User */
         $user = User::doesntHave('nonActiveUser')
             ->with('activeUser')
-            ->find($userId);
-        if (!$user) {
-            throw new ModelNotFoundException();
-        }
+            ->findOrFail($userId);
 
         $tokenMetaData = $user->tokens()->find(Str::before($token, '|'));
         if (!$tokenMetaData) {

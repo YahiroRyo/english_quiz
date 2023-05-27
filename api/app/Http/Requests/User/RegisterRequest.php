@@ -34,7 +34,7 @@ class RegisterRequest extends FormRequest
             Hash::make($validatedRequest['password']),
             $validatedRequest['personality'],
             $validatedRequest['name'],
-            InterventionImage::make($this->file('icon')),
+            InterventionImage::make($this->file('icon'))->fit(480, 480),
         );
     }
 }

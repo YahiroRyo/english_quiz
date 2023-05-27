@@ -26,12 +26,12 @@ class RegisterService
 
     public function execute(InitUserDTO $initUserDTO): UserDTO
     {
-        return DB::transaction(function() use ($initUserDTO) {
+        return DB::transaction(function () use ($initUserDTO) {
             $s3Image = $this->s3Repo->putImage(PutImageDTO::from(
                 $initUserDTO->getIcon(),
                 S3Path::USER,
                 S3Path::USER_THUMBNAIL,
-                80,
+                50,
                 15,
             ));
 

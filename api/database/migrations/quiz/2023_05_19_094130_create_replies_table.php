@@ -5,19 +5,16 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    private string $tableName = 'answers';
+    private string $tableName = 'replies';
 
     public function up(): void
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->foreignId('quiz_id')->primary();
+            $table->id('reply_id');
 
-            $table->text('answer');
-            $table->text('reply');
-            $table->boolean('is_correct');
-            $table->timestamp('created_at');
-
-            $table->foreign('quiz_id')->references('quiz_id')->on('quizes');
+            $table->text('message');
+            $table->foreignId('response_id')->default(0);
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

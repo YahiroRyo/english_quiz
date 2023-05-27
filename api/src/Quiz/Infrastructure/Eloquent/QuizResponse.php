@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Models\Quiz;
+namespace Eng\Quiz\Infrastructure\Eloquent;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class QuizResponse extends Model
 {
     use HasFactory;
 
     public const UPDATED_AT = null;
 
-    protected $primaryKey = 'category_id';
+    protected $primaryKey = 'quiz_id';
     protected $fillable = [
-        'name',
-        'formal_name',
+        'quiz_id',
+        'answer',
+        'is_correct',
     ];
 }

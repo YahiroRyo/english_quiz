@@ -1,4 +1,20 @@
 .form {
   display: grid;
+  grid-template-columns: 25rem 1fr;
+}
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.formInputTexts {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+}
+.formUploadIcon {
+  display: flex;
+  flex-direction: column;
   row-gap: 1rem;
+  align-items: center;
 }

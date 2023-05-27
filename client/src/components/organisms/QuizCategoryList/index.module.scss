@@ -1,0 +1,16 @@
+.quizCategoryListWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.quizCategoryList {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.quizCategoryLink {
+  width: 100%;
+  text-decoration: none;
+}

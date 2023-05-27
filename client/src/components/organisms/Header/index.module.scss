@@ -13,3 +13,10 @@
   top: 0;
   width: 100%;
 }
+
+.navigationElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+}

@@ -1,0 +1,17 @@
+.input {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.inputButton {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.inputButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}

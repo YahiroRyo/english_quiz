@@ -1,6 +1,9 @@
 import { User } from "@/types/user";
 
-export type PostRequest = {};
+export type PostRequest = {
+  username: string;
+  password: string;
+};
 export type PostResponse = {
   message: string;
   data: User;

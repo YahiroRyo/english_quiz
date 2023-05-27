@@ -7,6 +7,9 @@ export type PostResponse = {
 
 export interface Methods {
   post: {
+    reqHeaders: {
+      Authorization: string;
+    };
     resBody: PostResponse;
   };
 }
