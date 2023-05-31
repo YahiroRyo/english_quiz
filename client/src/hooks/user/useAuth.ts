@@ -1,11 +1,14 @@
 import { ROUTE_PATHNAME } from "@/constants/route";
+import { JOTAI_KEY, isReady } from "@/jotai";
 import { userAtom } from "@/jotai/user";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useSafePush } from "../route/useSafePush";
 
 export const useAuth = () => {
   const router = useRouter();
+  const safePush = useSafePush();
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(() => {
@@ -15,8 +18,12 @@ export const useAuth = () => {
       router.pathname === ROUTE_PATHNAME.REGISTER;
     const pathnameIsForLoggedInUser = () => !pathnameIsForUnLoggedInUser();
 
+    if (!isReady(JOTAI_KEY.USER, user)) {
+      return;
+    }
+
     if (userIsEmpty() && pathnameIsForLoggedInUser()) {
-      router.push(ROUTE_PATHNAME.LOGIN);
+      safePush(ROUTE_PATHNAME.LOGIN);
       return;
     }
     if (userIsEmpty() && pathnameIsForUnLoggedInUser()) {
@@ -24,10 +31,10 @@ export const useAuth = () => {
     }
 
     if (pathnameIsForUnLoggedInUser()) {
-      router.push(ROUTE_PATHNAME.TOP);
+      safePush(ROUTE_PATHNAME.TOP);
       return;
     }
-  }, []);
+  }, [user]);
 
-  return [user, setUser] as const;
+  return [user, setUser, isReady(JOTAI_KEY.USER, user)] as const;
 };

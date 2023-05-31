@@ -13,7 +13,7 @@ class QuizCategoryListResponse
     public static function success(array $quizCategoryList)
     {
         return Response::success(
-            'ログインに成功しました。',
+            'カテゴリ一覧の取得に成功しました。',
             array_map(function (QuizCategoryDTO $quizCategoryDTO) {
                 return $quizCategoryDTO->toJson();
             }, $quizCategoryList)

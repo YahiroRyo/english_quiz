@@ -1,63 +1,72 @@
-import { BorderRedButton } from "@/components/atoms/Button/BorderRedButton";
 import styles from "./index.module.scss";
-import { useEffect, useState } from "react";
 import { apiQuizCategoryList } from "@/modules/api/quiz/category";
 import { useAuth } from "@/hooks/user/useAuth";
-import { QuizCategory } from "@/types/quiz";
 import Link from "next/link";
 import { ROUTE_PATHNAME } from "@/constants/route";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { Alert } from "@/components/molecures/Alert";
-import { ErrorResponse } from "@/types/response";
-import { ERROR_MESSAGE } from "@/constants/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTag } from "@fortawesome/free-solid-svg-icons";
+import { SmallBlackBoldText } from "@/components/atoms/Text/SmallBlackBoldText";
+import { useSafePush } from "@/hooks/route/useSafePush";
 
 export const QuizCategoryList = () => {
-  const [user] = useAuth();
-  const [quizCategoryList, setQuizCategoryList] = useState<QuizCategory[]>([]);
-  const [error, setError] = useState<string>("");
+  const [user, setUser, isReady] = useAuth();
   const router = useRouter();
+  const safePush = useSafePush();
+  const { data, error, isLoading, status, mutate, retryCount, initRetryCount } =
+    apiQuizCategoryList(user?.token);
+  const { quizCategoryId } = router.query;
 
-  useEffect(() => {
-    const main = async () => {
-      if (user) {
-        try {
-          const res = await apiQuizCategoryList(user?.token!);
-          setQuizCategoryList(res.data);
-        } catch (e) {
-          if (axios.isAxiosError(e)) {
-            const responseData = e.response?.data as ErrorResponse;
-            const status = e.response?.status;
+  if (!isReady) {
+    return <></>;
+  }
 
-            if (status === 401 || status === 403) {
-              router.push(ROUTE_PATHNAME.LOGIN);
-              return;
-            }
+  if (isLoading) {
+    return <></>;
+  }
 
-            setError(responseData.message);
-            return;
-          }
+  if (status === 401 || status == 403) {
+    if (retryCount >= 5) {
+      initRetryCount();
+      setUser(undefined);
+      safePush(ROUTE_PATHNAME.LOGIN);
+      return <></>;
+    }
 
-          setError(ERROR_MESSAGE.UNKNOWN_ERROR);
-        }
-      }
-    };
+    setTimeout(mutate, 100);
+    return <></>;
+  }
 
-    main();
-  }, [user]);
+  if (error) {
+    return <Alert designType="error">{error}</Alert>;
+  }
+
+  if (!data) {
+    return <></>;
+  }
 
   return (
     <div className={styles.quizCategoryListWrapper}>
       <Alert designType="error">{error}</Alert>
 
       <div className={styles.quizCategoryList}>
-        {quizCategoryList.map((quizCategory) => (
+        {data.data.map((quizCategory) => (
           <Link
-            className={styles.quizCategoryLink}
+            className={`${styles.quizCategoryLink} ${
+              Number(quizCategoryId) == quizCategory.quizCategoryId
+                ? styles.quizCategoryLinkSelected
+                : ""
+            }`}
             key={quizCategory.quizCategoryId}
             href={`${ROUTE_PATHNAME.QUIZ}/${quizCategory.quizCategoryId}`}
           >
-            <BorderRedButton>{quizCategory.name}</BorderRedButton>
+            <SmallBlackBoldText>
+              <div className={styles.quizCategoryLinkText}>
+                <FontAwesomeIcon icon={faTag} />
+                {quizCategory.name}
+              </div>
+            </SmallBlackBoldText>
           </Link>
         ))}
       </div>

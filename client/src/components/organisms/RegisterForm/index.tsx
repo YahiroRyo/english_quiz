@@ -15,6 +15,7 @@ import { ROUTE_PATHNAME } from "@/constants/route";
 import { Alert } from "@/components/molecures/Alert";
 import { ErrorResponse, errorDictToString } from "@/types/response";
 import { ERROR_MESSAGE } from "@/constants/api";
+import { useSafePush } from "@/hooks/route/useSafePush";
 
 export const RegisterForm = () => {
   const {
@@ -26,13 +27,13 @@ export const RegisterForm = () => {
   const [previewIcon, setPreviewIcon] = useState<string>("");
   const [_, setUser] = useAuth();
   const [error, setError] = useState("");
-  const router = useRouter();
+  const safePush = useSafePush();
 
   const handleRegister: SubmitHandler<PostRequest> = async (request) => {
     try {
       const res = await apiRegisterUser(request);
       setUser(res.data);
-      router.push(ROUTE_PATHNAME.TOP);
+      safePush(ROUTE_PATHNAME.TOP);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         const status = e.response?.status;

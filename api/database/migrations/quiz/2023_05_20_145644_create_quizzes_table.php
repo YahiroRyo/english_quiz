@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    private string $tableName = 'quizes';
+    private string $tableName = 'quizzes';
 
     public function up(): void
     {
@@ -16,6 +16,7 @@ return new class () extends Migration {
             $table->foreignId('quiz_category_id');
             $table->text('prompt');
             $table->text('question');
+            $table->text('answer');
             $table->timestamp('created_at')->useCurrent();
 
             $table->foreign('user_id')->references('user_id')->on('users');

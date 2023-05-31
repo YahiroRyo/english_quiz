@@ -7,7 +7,7 @@ use Eng\Quiz\Infrastructure\Repository\DummyQuizCategoryRepository;
 use Eng\Quiz\Service\Query\QuizCategoryListService;
 use Tests\LoggedInTestCase;
 
-class CategoryListTest extends LoggedInTestCase
+class QuizCategoryListTest extends LoggedInTestCase
 {
     public function testカテゴリ一覧の取得を行うこと(): void
     {

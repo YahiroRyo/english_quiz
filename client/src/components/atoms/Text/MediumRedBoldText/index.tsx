@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const MediumRedBoldText = ({ children }: Props) => {
-  return <p className={styles.text}>{children}</p>;
+  return <div className={styles.text}>{children}</div>;
 };

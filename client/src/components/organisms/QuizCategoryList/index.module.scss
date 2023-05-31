@@ -1,16 +1,33 @@
+@use "@/styles/color.scss" as *;
+
 .quizCategoryListWrapper {
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
+  height: 100%;
 }
 
 .quizCategoryList {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: rgba(colors(lightDark), 0.25);
 }
 
 .quizCategoryLink {
   width: 100%;
   text-decoration: none;
+  padding: 1rem;
+  box-sizing: border-box;
+
+  &:hover,
+  &Selected {
+    background-color: rgba(colors(lightDark), 0.275);
+  }
+}
+
+.quizCategoryLinkText {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
 }

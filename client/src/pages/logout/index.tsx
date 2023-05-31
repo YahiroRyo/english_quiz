@@ -1,13 +1,13 @@
 import { HeaderWithPage } from "@/components/templates/HeaderWithPage";
 import { ROUTE_PATHNAME } from "@/constants/route";
+import { useSafePush } from "@/hooks/route/useSafePush";
 import { useAuth } from "@/hooks/user/useAuth";
 import { apiLogout } from "@/modules/api/logout";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Logout = () => {
-  const router = useRouter();
   const [user, setUser] = useAuth();
+  const safePush = useSafePush();
 
   useEffect(() => {
     const main = async () => {
@@ -16,7 +16,7 @@ const Logout = () => {
       } catch (e) {}
 
       setUser(undefined);
-      router.push(ROUTE_PATHNAME.LOGIN);
+      safePush(ROUTE_PATHNAME.LOGIN);
     };
 
     main();

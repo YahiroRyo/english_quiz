@@ -1,14 +1,13 @@
-import { QuizCategoryList } from "@/components/organisms/QuizCategoryList";
-import { HeaderWithPage } from "@/components/templates/HeaderWithPage";
+import { HeaderAndQuizCategoryListWithPage } from "@/components/templates/HeaderAndQuizCategoryListWithPage";
 import { useAuth } from "@/hooks/user/useAuth";
 
 const Home = () => {
   useAuth();
 
   return (
-    <HeaderWithPage title="ホーム">
-      <QuizCategoryList />
-    </HeaderWithPage>
+    <HeaderAndQuizCategoryListWithPage title="ホーム">
+      おはようございます！今日も一日頑張ろう！
+    </HeaderAndQuizCategoryListWithPage>
   );
 };
 

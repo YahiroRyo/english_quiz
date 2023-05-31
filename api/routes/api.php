@@ -19,7 +19,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::prefix('/quiz')->group(function () {
-        Route::get('/categoryList', [QuizController::class, 'categoryList']);
+        Route::prefix('/categoryList')->group(function () {
+            Route::get('/', [QuizController::class, 'categoryList']);
+            Route::get('/{quizCategoryId}', [QuizController::class, 'category']);
+        });
+        Route::post('/', [QuizController::class, 'createQuiz']);
     });
 });
 

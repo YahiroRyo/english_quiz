@@ -14,6 +14,7 @@ class QuizResponse extends Model
     protected $primaryKey = 'quiz_id';
     protected $fillable = [
         'quiz_id',
+        'quiz_response_reply_id',
         'answer',
         'is_correct',
     ];

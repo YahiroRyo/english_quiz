@@ -17,6 +17,6 @@ class QuizCategoryListService
     /** @return QuizCategoryDTO[] */
     public function execute(): array
     {
-        return $this->quizCategoryRepo->quizCategoryList();
+        return $this->quizCategoryRepo->findAll();
     }
 }

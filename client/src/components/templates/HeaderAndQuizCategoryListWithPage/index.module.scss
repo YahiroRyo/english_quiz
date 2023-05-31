@@ -1,0 +1,10 @@
+.main {
+  min-height: 100vh;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  column-gap: 2rem;
+}
+.mainContents {
+  margin-top: 1rem;
+}

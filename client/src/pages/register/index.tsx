@@ -1,6 +1,5 @@
 import { RegisterForm } from "@/components/organisms/RegisterForm";
 import { HeaderWithPage } from "@/components/templates/HeaderWithPage";
-import { useAuth } from "@/hooks/user/useAuth";
 
 const Register = () => {
   return (

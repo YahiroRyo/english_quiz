@@ -1,0 +1,8 @@
+@use "@/styles/color.scss" as *;
+
+.text {
+  color: colors(lightWhite);
+  font-weight: bold;
+  font-size: 0.75rem;
+  margin: 0;
+}

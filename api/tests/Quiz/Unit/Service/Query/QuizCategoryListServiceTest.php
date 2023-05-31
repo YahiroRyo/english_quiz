@@ -13,6 +13,6 @@ class QuizCategoryListServiceTest extends TestCase
         $quizCategoryListService = new QuizCategoryListService(new DummyQuizCategoryRepository());
         $quizCategoryList = $quizCategoryListService->execute();
 
-        $this->assertEquals($quizCategoryList, (new DummyQuizCategoryRepository())->quizCategoryList());
+        $this->assertEquals($quizCategoryList, (new DummyQuizCategoryRepository())->findAll());
     }
 }

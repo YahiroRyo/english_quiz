@@ -13,12 +13,12 @@ return new class () extends Migration {
             $table->foreignId('quiz_id')->primary();
 
             $table->text('answer');
-            $table->foreignId('reply_id');
+            $table->foreignId('quiz_response_reply_id');
             $table->boolean('is_correct');
             $table->timestamp('created_at')->useCurrent();
 
-            $table->foreign('quiz_id')->references('quiz_id')->on('quizes');
-            $table->foreign('reply_id')->references('reply_id')->on('replies');
+            $table->foreign('quiz_id')->references('quiz_id')->on('quizzes');
+            $table->foreign('quiz_response_reply_id')->references('quiz_response_reply_id')->on('quiz_response_replies');
         });
     }
 

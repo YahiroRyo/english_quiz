@@ -8,7 +8,7 @@ use Eng\Quiz\Infrastructure\Eloquent\QuizCategory;
 class QuizCategoryRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\QuizCategoryRepository
 {
     /** @return QuizCategoryDTO[] */
-    public function quizCategoryList(): array
+    public function findAll(): array
     {
         return QuizCategory::all()
             ->map(function (QuizCategory $category) {
@@ -19,5 +19,17 @@ class QuizCategoryRepository implements \Eng\Quiz\Infrastructure\Repository\Inte
                 );
             })
             ->toArray();
+    }
+
+    public function findOneByQuizCategoryId(int $quizCategoryId): QuizCategoryDTO
+    {
+        /** @var QuizCategory */
+        $quizCategory = QuizCategory::findOrFail($quizCategoryId);
+
+        return QuizCategoryDTO::from(
+            $quizCategory->getQuizCategoryId(),
+            $quizCategory->getName(),
+            $quizCategory->getFormalName(),
+        );
     }
 }

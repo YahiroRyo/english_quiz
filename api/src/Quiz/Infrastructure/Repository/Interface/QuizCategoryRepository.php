@@ -2,10 +2,12 @@
 
 namespace Eng\Quiz\Infrastructure\Repository\Interface;
 
-use Eng\Quiz\Domain\DTO\CategoryDTO;
+use Eng\Quiz\Domain\DTO\QuizCategoryDTO;
 
 interface QuizCategoryRepository
 {
-    /** @return CategoryDTO[] */
-    public function quizCategoryList(): array;
+    /** @return QuizCategoryDTO[] */
+    public function findAll(): array;
+
+    public function findOneByQuizCategoryId(int $quizCategoryId): QuizCategoryDTO;
 }
