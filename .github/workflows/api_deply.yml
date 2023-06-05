@@ -33,6 +33,7 @@ jobs:
     - name: setting yml
       env:
         APP_KEY: ${{ secrets.APP_KEY }}
+        CHAT_GPT_TOKEN: ${{ secrets.CHAT_GPT_TOKEN }}
         LOG_CHANNEL: ${{ secrets.LOG_CHANNEL }}
         DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
         DB_PORT: ${{ secrets.DB_PORT }}
@@ -40,6 +41,7 @@ jobs:
         DB_DATABASE: ${{ secrets.DB_DATABASE }}
         DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
         MYSQL_ATTR_SSL_CA: ${{ secrets.MYSQL_ATTR_SSL_CA }}
         SESSION_DRIVER: ${{ secrets.SESSION_DRIVER }}
         CACHE_DRIVER: ${{ secrets.CACHE_DRIVER }}
