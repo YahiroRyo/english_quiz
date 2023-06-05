@@ -39,6 +39,7 @@ functions:
       - http: 'ANY /'
       - http: 'ANY /{proxy+}'
     environment:
+      LOG_CHANNEL: ${self:custom.environments.LOG_CHANNEL}
       DB_CONNECTION: ${self:custom.environments.DB_CONNECTION}
       DB_PORT: ${self:custom.environments.DB_PORT}
       DB_HOST: ${self:custom.environments.DB_HOST}
@@ -57,6 +58,7 @@ functions:
       - ${bref-extra:gd-php-82}
       - ${bref:layer.console}
     environment:
+      LOG_CHANNEL: ${self:custom.environments.LOG_CHANNEL}
       DB_CONNECTION: ${self:custom.environments.DB_CONNECTION}
       DB_PORT: ${self:custom.environments.DB_PORT}
       DB_HOST: ${self:custom.environments.DB_HOST}

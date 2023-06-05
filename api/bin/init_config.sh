@@ -2,6 +2,7 @@
 
 main() {
     {
+        echo "LOG_CHANNEL: $LOG_CHANNEL"
         echo "DB_CONNECTION: $DB_CONNECTION"
         echo "DB_PORT: $DB_PORT"
         echo "DB_HOST: $DB_HOST"
