@@ -57,6 +57,7 @@ functions:
       - ${bref-extra:gd-php-82}
       - ${bref:layer.console}
     environment:
+      DB_CONNECTION: ${self:custom.environments.DB_CONNECTION}
       DB_PORT: ${self:custom.environments.DB_PORT}
       DB_HOST: ${self:custom.environments.DB_HOST}
       DB_DATABASE: ${self:custom.environments.DB_DATABASE}
