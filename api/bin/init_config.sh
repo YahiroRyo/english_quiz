@@ -2,6 +2,7 @@
 
 main() {
     {
+        echo "APP_KEY: $APP_KEY"
         echo "LOG_CHANNEL: $LOG_CHANNEL"
         echo "DB_CONNECTION: $DB_CONNECTION"
         echo "DB_PORT: $DB_PORT"
