@@ -19,8 +19,8 @@ return new class () extends Migration {
             $table->text('answer');
             $table->timestamp('created_at')->useCurrent();
 
-            $table->foreign('user_id')->references('user_id')->on('users');
-            $table->foreign('quiz_category_id')->references('quiz_category_id')->on('quiz_categories');
+            // $table->foreign('user_id')->references('user_id')->on('users');
+            // $table->foreign('quiz_category_id')->references('quiz_category_id')->on('quiz_categories');
         });
     }
 
