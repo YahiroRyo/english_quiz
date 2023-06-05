@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->text('message');
             $table->timestamp('created_at')->useCurrent();
 
-            $table->foreign('quiz_response_id')->references('quiz_response_id')->on('quiz_responses');
+            // $table->foreign('quiz_response_id')->references('quiz_response_id')->on('quiz_responses');
         });
     }
 

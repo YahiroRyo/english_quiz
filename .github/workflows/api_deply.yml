@@ -38,6 +38,8 @@ jobs:
         DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         MYSQL_ATTR_SSL_CA: ${{ secrets.MYSQL_ATTR_SSL_CA }}
+        SESSION_DRIVER: ${{ secrets.SESSION_DRIVER }}
+        CACHE_DRIVER: ${{ secrets.CACHE_DRIVER }}
       run: |
         bash ./bin/init_config.sh
     - name: copy .crt

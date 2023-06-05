@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->boolean('is_correct');
             $table->timestamp('created_at')->useCurrent();
 
-            $table->foreign('quiz_id')->references('quiz_id')->on('quizzes');
+            // $table->foreign('quiz_id')->references('quiz_id')->on('quizzes');
         });
     }
 

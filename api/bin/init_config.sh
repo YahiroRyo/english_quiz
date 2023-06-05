@@ -8,6 +8,8 @@ main() {
         echo "DB_USER_NAME: $DB_USER_NAME"
         echo "DB_PASSWORD: $DB_PASSWORD"
         echo "MYSQL_ATTR_SSL_CA: $MYSQL_ATTR_SSL_CA"
+        echo "SESSION_DRIVER: $SESSION_DRIVER"
+        echo "CACHE_DRIVER: $CACHE_DRIVER"
     } >> ./config/config.yml
 }
 
