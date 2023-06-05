@@ -47,8 +47,8 @@ functions:
       DB_USERNAME: ${self:custom.environments.DB_USER_NAME}
       DB_PASSWORD: ${self:custom.environments.DB_PASSWORD}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
-      SESSION_DRIVER: ${self.custom.environments.SESSION_DRIVER}
-      CACHE_DRIVER: ${self.custom.environments.CACHE_DRIVER}
+      SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
+      CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
 
   artisan:
     handler: artisan
@@ -66,8 +66,8 @@ functions:
       DB_USERNAME: ${self:custom.environments.DB_USER_NAME}
       DB_PASSWORD: ${self:custom.environments.DB_PASSWORD}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
-      SESSION_DRIVER: ${self.custom.environments.SESSION_DRIVER}
-      CACHE_DRIVER: ${self.custom.environments.CACHE_DRIVER}
+      SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
+      CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
 
 plugins:
   - ./vendor/bref/bref
