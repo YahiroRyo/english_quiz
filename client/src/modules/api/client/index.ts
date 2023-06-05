@@ -14,7 +14,7 @@ export const apiClient = (config?: AxiosRequestConfig<any> | undefined) => {
       axios.create(),
       Object.assign(
         {
-          baseURL: "http://localhost:8000",
+          baseURL: process.env.NEXT_PUBLIC_API_URL,
           paramsSerializer: {
             indexes: false,
           },

@@ -43,6 +43,7 @@ functions:
       - http: 'ANY /{proxy+}'
     environment:
       APP_KEY: ${self:custom.environments.APP_KEY}
+      CHAT_GPT_TOKEN: ${self:custom.environments.CHAT_GPT_TOKEN}
       LOG_CHANNEL: ${self:custom.environments.LOG_CHANNEL}
       DB_CONNECTION: ${self:custom.environments.DB_CONNECTION}
       DB_PORT: ${self:custom.environments.DB_PORT}
@@ -50,6 +51,7 @@ functions:
       DB_DATABASE: ${self:custom.environments.DB_DATABASE}
       DB_USERNAME: ${self:custom.environments.DB_USER_NAME}
       DB_PASSWORD: ${self:custom.environments.DB_PASSWORD}
+      AWS_BUCKET: ${self:custom.environments.AWS_BUCKET}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
@@ -63,6 +65,7 @@ functions:
       - ${bref:layer.console}
     environment:
       APP_KEY: ${self:custom.environments.APP_KEY}
+      CHAT_GPT_TOKEN: ${self:custom.environments.CHAT_GPT_TOKEN}
       LOG_CHANNEL: ${self:custom.environments.LOG_CHANNEL}
       DB_CONNECTION: ${self:custom.environments.DB_CONNECTION}
       DB_PORT: ${self:custom.environments.DB_PORT}
@@ -70,6 +73,7 @@ functions:
       DB_DATABASE: ${self:custom.environments.DB_DATABASE}
       DB_USERNAME: ${self:custom.environments.DB_USER_NAME}
       DB_PASSWORD: ${self:custom.environments.DB_PASSWORD}
+      AWS_BUCKET: ${self:custom.environments.AWS_BUCKET}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
