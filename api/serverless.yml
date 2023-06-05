@@ -33,8 +33,8 @@ functions:
     handler: public/index.php
     timeout: 28
     layers:
-      - ${bref:layer.php-81-fpm}
-      - ${bref-extra:gd-php-81}
+      - ${bref:layer.php-82-fpm}
+      - ${bref-extra:gd-php-82}
     events:
       - http: 'ANY /'
       - http: 'ANY /{proxy+}'
@@ -50,8 +50,8 @@ functions:
     handler: artisan
     timeout: 120
     layers:
-      - ${bref:layer.php-81-fpm}
-      - ${bref-extra:gd-php-81}
+      - ${bref:layer.php-82-fpm}
+      - ${bref-extra:gd-php-82}
       - ${bref:layer.console}
     environment:
       DB_PORT: ${self:custom.environments.DB_PORT}
