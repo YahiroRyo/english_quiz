@@ -1,0 +1,8 @@
+@use "@/styles/color.scss" as *;
+
+.text {
+  color: colors("dark");
+  font-weight: bold;
+  font-size: 2rem;
+  margin: 0;
+}

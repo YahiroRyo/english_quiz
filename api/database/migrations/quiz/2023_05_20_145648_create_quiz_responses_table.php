@@ -10,15 +10,14 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->foreignId('quiz_id')->primary();
+            $table->id('quiz_response_id');
 
+            $table->foreignId('quiz_id');
             $table->text('answer');
-            $table->foreignId('quiz_response_reply_id');
             $table->boolean('is_correct');
             $table->timestamp('created_at')->useCurrent();
 
             $table->foreign('quiz_id')->references('quiz_id')->on('quizzes');
-            $table->foreign('quiz_response_reply_id')->references('quiz_response_reply_id')->on('quiz_response_replies');
         });
     }
 

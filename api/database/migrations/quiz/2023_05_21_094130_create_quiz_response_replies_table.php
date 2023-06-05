@@ -12,9 +12,12 @@ return new class () extends Migration {
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->id('quiz_response_reply_id');
 
+            $table->foreignId('quiz_response_id');
+            $table->string('role', 255);
             $table->text('message');
-            $table->foreignId('response_id')->default(0);
             $table->timestamp('created_at')->useCurrent();
+
+            $table->foreign('quiz_response_id')->references('quiz_response_id')->on('quiz_responses');
         });
     }
 

@@ -6,12 +6,13 @@
   box-sizing: border-box;
   background-color: colors(lightWhite);
   display: flex;
-  height: 54px;
+  height: 4rem;
   justify-content: space-between;
   padding: 0 2rem;
   position: sticky;
   top: 0;
   width: 100%;
+  z-index: 5;
 }
 
 .navigationElement {

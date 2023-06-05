@@ -15,7 +15,7 @@ class CreateQuizListResponse
         return Response::success(
             'クイズの作成に成功しました。',
             array_map(
-                function(QuizEntity $quiz) {
+                function (QuizEntity $quiz) {
                     return $quiz->toJson();
                 },
                 $quizList,

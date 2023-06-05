@@ -21,7 +21,12 @@ class CreateQuizListTest extends LoggedInTestCase
     {
         /** @var QuizCategory */
         $quizCategory = QuizCategory::first();
-        $messageFromChatgpt = [["question" => "現在の時間は何時ですか？", "answer" => "What time is it now?"], ["question" => "あなたは何歳ですか？", "answer" => "How old are you?"]];
+        $messageFromChatgpt = [
+            "quizzes" => [
+                ["question" => "現在の時間は何時ですか？", "answer" => "What time is it now?"],
+                ["question" => "あなたは何歳ですか？", "answer" => "How old are you?"]
+            ]
+        ];
 
         $spyChatgptRepo = $this->spy(ChatgptRepository::class);
         $spyChatgptRepo->shouldReceive('createChat')
@@ -34,7 +39,7 @@ class CreateQuizListTest extends LoggedInTestCase
 
         $chatgptRepositoryMock = Mockery::mock(
             ChatgptRepository::class,
-            function(MockInterface $mock) use ($messageFromChatgpt) {
+            function (MockInterface $mock) use ($messageFromChatgpt) {
                 $mock->shouldReceive('createChat')
                     ->once()
                     ->andReturn(

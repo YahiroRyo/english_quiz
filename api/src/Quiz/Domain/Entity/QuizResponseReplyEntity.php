@@ -3,27 +3,35 @@
 namespace Eng\Quiz\Domain\Entity;
 
 use Carbon\CarbonImmutable;
+use Eng\Chatgpt\Domain\Entity\ChatRole;
 
 class QuizResponseReplyEntity
 {
-    private int $replyId;
+    private ChatRole $role;
+    private int $quizResponseReplyId;
     private string $message;
     private CarbonImmutable $sendedAt;
 
     private function __construct(
-        int $replyId,
+        ChatRole $role,
+        int $quizResponseReplyId,
         string $message,
         CarbonImmutable $sendedAt,
-    )
-    {
-        $this->replyId = $replyId;
+    ) {
+        $this->role = $role;
+        $this->quizResponseReplyId = $quizResponseReplyId;
         $this->message = $message;
         $this->sendedAt = $sendedAt;
     }
 
-    public function getReplyId(): int
+    public function getRole(): ChatRole
     {
-        return $this->replyId;
+        return $this->role;
+    }
+
+    public function getResponseReplyId(): int
+    {
+        return $this->quizResponseReplyId;
     }
 
     public function getMessage(): string
@@ -39,20 +47,22 @@ class QuizResponseReplyEntity
     public function toJson(): array
     {
         return [
-            'replyId'  => $this->getReplyId(),
-            'message'  => $this->getMessage(),
-            'sendedAt' => $this->getSendedAt()->toISOString(),
+            'role'                => $this->getRole(),
+            'quizResponseReplyId' => $this->getResponseReplyId(),
+            'message'             => $this->getMessage(),
+            'sendedAt'            => $this->getSendedAt()->toISOString(),
         ];
     }
 
     public static function from(
-        int $replyId,
+        ChatRole $role,
+        int $quizResponseReplyId,
         string $message,
         CarbonImmutable $sendedAt,
-    ): self
-    {
+    ): self {
         return new self(
-            $replyId,
+            $role,
+            $quizResponseReplyId,
             $message,
             $sendedAt,
         );

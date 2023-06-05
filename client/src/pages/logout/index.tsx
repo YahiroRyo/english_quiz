@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/user/useAuth";
 import { apiLogout } from "@/modules/api/logout";
 import { useEffect } from "react";
 
-const Logout = () => {
+const Index = () => {
   const [user, setUser] = useAuth();
   const safePush = useSafePush();
 
@@ -25,4 +25,4 @@ const Logout = () => {
   <HeaderWithPage title="ログアウト"></HeaderWithPage>;
 };
 
-export default Logout;
+export default Index;

@@ -4,6 +4,7 @@ namespace Eng\Quiz\Infrastructure\Eloquent;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Quiz extends Model
 {
@@ -19,6 +20,26 @@ class Quiz extends Model
         'question',
         'answer',
     ];
+
+    public function quizCategory(): HasOne
+    {
+        return $this->hasOne(QuizCategory::class, 'quiz_category_id', 'quiz_category_id');
+    }
+
+    public function quizResponse(): HasOne
+    {
+        return $this->hasOne(QuizResponse::class, 'quiz_id', 'quiz_id');
+    }
+
+    public function getQuizCategory(): QuizCategory
+    {
+        return $this->quizCategory;
+    }
+
+    public function getResponse(): ?QuizResponse
+    {
+        return $this->quizResponse;
+    }
 
     public function getQuizId(): int
     {

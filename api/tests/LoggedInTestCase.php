@@ -31,5 +31,7 @@ class LoggedInTestCase extends TestCase
 
         $userDTO = (new UserRepository())->createTokenByUserId($this->user->getUserId());
         $this->token = $userDTO->getToken();
+
+        $this->actingAs($this->user);
     }
 }

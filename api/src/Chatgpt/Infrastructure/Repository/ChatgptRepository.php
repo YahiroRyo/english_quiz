@@ -20,7 +20,7 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
     {
         $messages = array_merge(
             [ChatMessageDTO::from(ChatRole::SYSTEM, $initChatDTO->getPrompt())->toJson()],
-            array_map(function(ChatMessageDTO $chatMessageDTO) {
+            array_map(function (ChatMessageDTO $chatMessageDTO) {
                 return $chatMessageDTO->toJson();
             }, $initChatDTO->getMessageList())
         );
@@ -42,8 +42,10 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
             ]
         );
 
-		$content = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        $content = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         $responseMessage = $content['choices'][0]['message'];
+
+        logs()->debug($responseMessage);
 
         return ChatMessageDTO::from(
             ChatRole::from($responseMessage['role']),

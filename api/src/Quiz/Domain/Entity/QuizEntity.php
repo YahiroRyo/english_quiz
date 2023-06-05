@@ -18,8 +18,7 @@ class QuizEntity
         string $answer,
         QuizCategoryEntity $quizCategoryEntity,
         QuizResponseEntity $quizResponseEntity
-    )
-    {
+    ) {
         $this->quizId = $quizId;
         $this->question = $question;
         $this->answer = $answer;

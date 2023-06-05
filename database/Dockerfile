@@ -1,4 +1,9 @@
-FROM postgres:15.0
+FROM mysql:8.0-debian
 
-RUN localedef -i ja_JP -c -f UTF-8 -A /usr/share/locale/locale.alias ja_JP.UTF-8
-ENV LANG ja_JP.utf8
+RUN apt-get update \
+&& apt-get -y install locales --no-install-recommends \
+&& rm -rf /var/lib/apt/lists/*
+
+RUN dpkg-reconfigure locales && \
+    locale-gen C.UTF-8 && \
+    /usr/sbin/update-locale LANG=C.UTF-8

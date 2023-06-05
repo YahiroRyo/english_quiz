@@ -1,0 +1,14 @@
+@use "@/styles/color.scss" as *;
+
+.icon {
+  background-color: colors(orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  padding: 1.5rem;
+  color: colors(white);
+  border-radius: 0.5rem;
+  line-height: 0;
+}

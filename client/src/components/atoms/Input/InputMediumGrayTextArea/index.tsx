@@ -11,15 +11,20 @@ type Props = {
 export const InputMediumGrayTextArea = ({
   register,
   name,
+  disabled,
   validation,
   placeholder,
+  children,
 }: Props) => {
   return (
     <textarea
       {...register(name, validation)}
+      disabled={disabled}
       className={styles.input}
       placeholder={placeholder}
       rows={6}
-    />
+    >
+      {children}
+    </textarea>
   );
 };

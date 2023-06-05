@@ -12,8 +12,7 @@ class ChatMessageDTO
     private function __construct(
         ChatRole $role,
         string $content,
-    )
-    {
+    ) {
         $this->role = $role;
         $this->content = $content;
     }

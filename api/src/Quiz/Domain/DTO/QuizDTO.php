@@ -20,8 +20,7 @@ class QuizDTO
         string $prompt,
         QuizCategoryDTO $quizCategoryDTO,
         QuizResponseDTO $quizResponseDTO
-    )
-    {
+    ) {
         $this->quizId = $quizId;
         $this->creator = $creator;
         $this->question = $question;

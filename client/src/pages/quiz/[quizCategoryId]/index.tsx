@@ -1,5 +1,6 @@
 import { Alert } from "@/components/molecures/Alert";
 import { CreateQuizRequestButton } from "@/components/organisms/CreateQuizRequestButton";
+import { QuizList } from "@/components/organisms/QuizList";
 import { HeaderAndQuizCategoryListWithPage } from "@/components/templates/HeaderAndQuizCategoryListWithPage";
 import { ROUTE_PATHNAME } from "@/constants/route";
 import { useSafePush } from "@/hooks/route/useSafePush";
@@ -15,10 +16,8 @@ const Index = () => {
   const { quizCategoryId } = router.query;
   const [retryCount, setRetryCount] = useState(0);
 
-  const { data, error, isLoading, status, mutate } = apiQuizCategory(
-    Number(quizCategoryId),
-    user?.token
-  );
+  const { data, error, isLoading, status, mutate, initRetryCount } =
+    apiQuizCategory(Number(quizCategoryId), user?.token);
 
   if (!isReady || isLoading) {
     <HeaderAndQuizCategoryListWithPage title="ロード中"></HeaderAndQuizCategoryListWithPage>;
@@ -26,6 +25,7 @@ const Index = () => {
 
   if (status === 401 || status == 403) {
     if (retryCount >= 5) {
+      initRetryCount();
       setUser(undefined);
       safePush(ROUTE_PATHNAME.LOGIN);
       return (
@@ -35,7 +35,7 @@ const Index = () => {
 
     mutate();
     setRetryCount((count) => count + 1);
-    <HeaderAndQuizCategoryListWithPage title=""></HeaderAndQuizCategoryListWithPage>;
+    <HeaderAndQuizCategoryListWithPage title="ロード中"></HeaderAndQuizCategoryListWithPage>;
   }
 
   if (error) {
@@ -49,10 +49,12 @@ const Index = () => {
   if (!data) {
     return <></>;
   }
+  initRetryCount();
 
   return (
     <HeaderAndQuizCategoryListWithPage title={`${data?.data.name}の勉強`}>
       <CreateQuizRequestButton />
+      <QuizList />
     </HeaderAndQuizCategoryListWithPage>
   );
 };

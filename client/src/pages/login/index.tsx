@@ -2,7 +2,7 @@ import { LoginForm } from "@/components/organisms/LoginForm";
 import { HeaderWithPage } from "@/components/templates/HeaderWithPage";
 import { useAuth } from "@/hooks/user/useAuth";
 
-const Login = () => {
+const Index = () => {
   useAuth();
 
   return (
@@ -12,4 +12,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Index;

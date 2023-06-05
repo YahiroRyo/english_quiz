@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(ClientInterface::class, function() {
+        $this->app->bind(ClientInterface::class, function () {
             return new Client();
         });
     }

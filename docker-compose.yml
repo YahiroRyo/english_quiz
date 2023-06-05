@@ -30,19 +30,22 @@ services:
     ports:
       - "8000:80"
     depends_on:
-      - psql
+      - mysql
   
-  psql:
-    build:
-      context: ./database
-    container_name: english-quiz-db
-    environment:
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
-      PGPASSWORD: docker
-      POSTGRES_DB: main
-      TZ: "Asia/Tokyo"
+  mysql:
+    build: ./database
+    container_name: english-db
     ports:
-      - 50432:5432
+      - "30060:3306"
     volumes:
-      - ./database/data:/var/lib/postgresql/data
+      - ./database/mysql/mysql.conf:/etc/mysql/mysql.conf
+      - ./database/mysql/lib:/var/lib/mysql
+      - ./database/mysql/logs:/var/log/database
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: root
+      TZ: "Asia/Tokyo"
+      LC_ALL: "C.UTF-8"

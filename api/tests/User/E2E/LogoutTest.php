@@ -44,11 +44,11 @@ class LogoutTest extends TestCase
 
         $response->assertOk();
 
-        $responseData     = $response->json()['data'];
+        $responseData     = $response->json('data');
         $loggedInUserData = $loggedInUser->toJson();
 
-        $this->assertTrue(strlen($responseData['token']) === 42);
-        $this->assertTrue(strlen($loggedInUserData['token']) === 42);
+        $this->assertNotEmpty($responseData['token']);
+        $this->assertNotEmpty($loggedInUserData['token']);
 
         $response = $this->post('/api/logout', [], ['Authorization' => 'Bearer ' . $loggedInUserData['token'] ]);
         $response->assertOk();

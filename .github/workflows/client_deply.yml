@@ -1,0 +1,39 @@
+name: ClientDeploy
+
+on:
+  push:
+    branches:
+      - client/production
+  delete:
+    branches:
+      - client/production
+
+jobs:
+  to_s3:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master 
+
+      - name: Install Dependencies
+        run: |
+          yarn install
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+        run:  |
+          yarn build && yarn export
+          bash ./bin/init_env.sh
+
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp --recursive --region ap-northeast-1 out s3://yappi-english-quiz-client
+          aws s3 cp --region ap-northeast-1 .env s3://yappi-english-quiz-client

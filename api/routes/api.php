@@ -23,7 +23,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', [QuizController::class, 'categoryList']);
             Route::get('/{quizCategoryId}', [QuizController::class, 'category']);
         });
+        Route::get('/', [QuizController::class, 'getQuizList']);
         Route::post('/', [QuizController::class, 'createQuiz']);
+
+        Route::prefix('/{quizId}')->group(function () {
+            Route::get('/', [QuizController::class, 'getQuiz']);
+            Route::post('/add', [QuizController::class, 'addMessage']);
+        });
     });
 });
 

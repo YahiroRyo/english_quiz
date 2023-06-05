@@ -20,11 +20,16 @@ class CreateQuizListServiceTest extends TestCase
 {
     public function testクイズの作成を行うこと(): void
     {
-        $messageFromChatgpt = [["question" => "現在の時間は何時ですか？", "answer" => "What time is it now?"], ["question" => "あなたは何歳ですか？", "answer" => "How old are you?"]];
+        $messageFromChatgpt = [
+            "quizzes" => [
+                ["question" => "現在の時間は何時ですか？", "answer" => "What time is it now?"],
+                ["question" => "あなたは何歳ですか？", "answer" => "How old are you?"]
+            ]
+        ];
 
         $chatgptRepositoryMock = Mockery::mock(
             ChatgptRepository::class,
-            function(MockInterface $mock) use ($messageFromChatgpt) {
+            function (MockInterface $mock) use ($messageFromChatgpt) {
                 $mock->shouldReceive('createChat')
                     ->once()
                     ->andReturn(
@@ -38,7 +43,7 @@ class CreateQuizListServiceTest extends TestCase
 
         $userRepositoryMock = Mockery::mock(
             UserRepository::class,
-            function(MockInterface $mock) {
+            function (MockInterface $mock) {
                 $mock->shouldReceive('findMe')
                     ->once()
                     ->andReturn(UserDTO::from(1, 'test', 'test', '', 'personality', 'name', 'iconURL'));
@@ -56,8 +61,8 @@ class CreateQuizListServiceTest extends TestCase
         $quizList = $createQuizService->execute(1);
 
         $this->assertEquals(
-            $messageFromChatgpt,
-            array_map(function(QuizEntity $quizEntity) {
+            $messageFromChatgpt['quizzes'],
+            array_map(function (QuizEntity $quizEntity) {
                 return [
                     "question" => $quizEntity->getQuestion(),
                     "answer" => $quizEntity->getAnswer(),
@@ -70,7 +75,7 @@ class CreateQuizListServiceTest extends TestCase
     {
         $chatgptRepositoryMock = Mockery::mock(
             ChatgptRepository::class,
-            function(MockInterface $mock) {
+            function (MockInterface $mock) {
                 $mock->shouldReceive('createChat')
                     ->once()
                     ->andReturn(
@@ -84,7 +89,7 @@ class CreateQuizListServiceTest extends TestCase
 
         $userRepositoryMock = Mockery::mock(
             UserRepository::class,
-            function(MockInterface $mock) {
+            function (MockInterface $mock) {
                 $mock->shouldReceive('findMe')
                     ->once()
                     ->andReturn(UserDTO::from(1, 'test', 'test', '', 'personality', 'name', 'iconURL'));

@@ -34,9 +34,11 @@ export const QuizCategoryList = () => {
       return <></>;
     }
 
-    setTimeout(mutate, 100);
+    setTimeout(mutate, 500);
     return <></>;
   }
+
+  initRetryCount();
 
   if (error) {
     return <Alert designType="error">{error}</Alert>;

@@ -11,8 +11,7 @@ class InitChatDTO
     private function __construct(
         string $prompt,
         array $messageList,
-    )
-    {
+    ) {
         $this->prompt = $prompt;
         $this->messageList = $messageList;
     }

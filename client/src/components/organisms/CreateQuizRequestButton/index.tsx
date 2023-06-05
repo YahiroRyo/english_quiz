@@ -34,6 +34,8 @@ export const CreateQuizRequestButton = () => {
     <></>;
   }
 
+  initRetryCount();
+
   if (error) {
     return <Alert designType="error">{error}</Alert>;
   }

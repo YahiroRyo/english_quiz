@@ -25,8 +25,7 @@ class CreateQuizService
         UserRepository $userRepo,
         QuizCategoryRepository $quizCategoryRepo,
         ChatgptRepository $chatgptRepo
-    )
-    {
+    ) {
         $this->quizRepo = $quizRepo;
         $this->userRepo = $userRepo;
         $this->quizCategoryRepo = $quizCategoryRepo;
@@ -36,7 +35,7 @@ class CreateQuizService
     /** @return QuizEntity[] */
     public function execute(int $quizCategoryId): array
     {
-        return DB::transaction(function() use ($quizCategoryId) {
+        return DB::transaction(function () use ($quizCategoryId) {
             $quizCategory = $this->quizCategoryRepo->findOneByQuizCategoryId($quizCategoryId);
 
             $me = $this->userRepo->findMe();
@@ -47,29 +46,33 @@ class CreateQuizService
                 [],
             ));
 
-            logs()->debug($createdChatMessage->getContent());
-
             /** @var array */
             $quizListFromChatMessage = json_decode($createdChatMessage->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
-            $quizList = $this->quizRepo->createQuizList(array_map(function(array $quizFromChatMessage) use ($quizCategory, $me, $prompt) {
-                return QuizDTO::from(
-                    QuizConstants::DEFAULT_QUIZ_ID,
-                    $me->getUserId(),
-                    $quizFromChatMessage['question'],
-                    $quizFromChatMessage['answer'],
-                    $prompt,
-                    $quizCategory,
-                    QuizResponseDTO::from(
-                        QuizConstants::UNRESPONSIVE,
-                        false,
-                        [],
-                    ),
-                );
-            }, $quizListFromChatMessage));
+            $quizList = $this->quizRepo->createQuizList(
+                array_map(
+                    function (array $quizFromChatMessage) use ($quizCategory, $me, $prompt) {
+                        return QuizDTO::from(
+                            QuizConstants::DEFAULT_QUIZ_ID,
+                            $me->getUserId(),
+                            $quizFromChatMessage['question'],
+                            $quizFromChatMessage['answer'],
+                            $prompt,
+                            $quizCategory,
+                            QuizResponseDTO::from(
+                                QuizConstants::DEFAULT_QUIZ_RESPONSE_ID,
+                                QuizConstants::UNRESPONSIVE,
+                                false,
+                                [],
+                            ),
+                        );
+                    },
+                    $quizListFromChatMessage['quizzes']
+                )
+            );
 
             return array_map(
-                function(QuizDTO $quiz) {
+                function (QuizDTO $quiz) {
                     return QuizEntity::fromDTO($quiz);
                 },
                 $quizList

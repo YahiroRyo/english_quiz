@@ -1,0 +1,54 @@
+@use "@/styles/color.scss" as *;
+
+.quiz,
+.quizSolutionAnalysis {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.quizSolutionAnalysis {
+  margin-right: 2rem;
+  position: relative;
+}
+
+.quiz {
+  padding: 0 2rem;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.chatForm,
+.answerForm {
+  display: flex;
+  column-gap: 1rem;
+}
+
+.chatForm {
+  bottom: 2rem;
+  position: sticky;
+  left: 0;
+  right: 0;
+}
+
+.chatFormSubmitButton,
+.answerFormSubmitButton {
+  margin-top: auto;
+}
+
+.message {
+  padding: 2rem;
+}
+
+.messageOfMe {
+  @extend .message;
+}
+
+.messageOfBot {
+  @extend .message;
+  background-color: colors(darkWhite);
+}

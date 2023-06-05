@@ -2,30 +2,39 @@
 
 namespace Eng\Quiz\Domain\Entity;
 
+use Eng\Chatgpt\Domain\Entity\ChatRole;
 use Eng\Quiz\Domain\DTO\QuizResponseDTO;
 use Eng\Quiz\Domain\DTO\QuizResponseReplyDTO;
 
 class QuizResponseEntity
 {
+    private int $quizResponseId;
     private string $response;
     private bool $isCorrect;
     /** @var QuizResponseReplyEntity[] */
     private array $replyList;
 
     /**
+     * @param int $quizResponseId
      * @param string $response
      * @param bool $isCorrect
      * @param QuizResponseReplyEntity[] $replyList
      */
     private function __construct(
+        int $quizResponseId,
         string $response,
         bool $isCorrect,
         array $replyList
-    )
-    {
+    ) {
+        $this->quizResponseId = $quizResponseId;
         $this->response = $response;
         $this->isCorrect = $isCorrect;
         $this->replyList = $replyList;
+    }
+
+    public function getQuizResponseId(): string
+    {
+        return $this->quizResponseId;
     }
 
     public function getResponse(): string
@@ -43,38 +52,40 @@ class QuizResponseEntity
         return $this->replyList;
     }
 
-    private function isEmpty(): bool
+    public function isEmpty(): bool
     {
         return $this->getResponse() === QuizConstants::UNRESPONSIVE;
     }
 
-    public function toJson(): array
+    public function toJson(): ?array
     {
         if ($this->isEmpty()) {
-            return [];
+            return null;
         }
 
         return [
             'response'  => $this->getResponse(),
             'isCorrect' => $this->getIsCorrect(),
-            'replyList' => array_map(function(QuizResponseReplyEntity $quizResponseReplyEntity) {
+            'replyList' => array_map(function (QuizResponseReplyEntity $quizResponseReplyEntity) {
                 return $quizResponseReplyEntity->toJson();
             }, $this->getReplyList()),
         ];
     }
 
     /**
+     * @param int $quizResponseId
      * @param string $response
      * @param bool $isCorrect
      * @param QuizResponseReplyEntity[] $replyList
      */
     public static function from(
+        int $quizResponseId,
         string $response,
         bool $isCorrect,
         array $replyList
-    ): self
-    {
+    ): self {
         return new self(
+            $quizResponseId,
             $response,
             $isCorrect,
             $replyList,
@@ -84,11 +95,13 @@ class QuizResponseEntity
     public static function fromDTO(QuizResponseDTO $quizResponseDTO): self
     {
         return new self(
+            $quizResponseDTO->getQuizResponseId(),
             $quizResponseDTO->getResponse(),
             $quizResponseDTO->getIsCorrect(),
-            array_map(function(QuizResponseReplyDTO $quizResponseReplyDTO) {
+            array_map(function (QuizResponseReplyDTO $quizResponseReplyDTO) {
                 return QuizResponseReplyEntity::from(
-                    $quizResponseReplyDTO->getReplyId(),
+                    ChatRole::from($quizResponseReplyDTO->getRole()),
+                    $quizResponseReplyDTO->getQuizResponseReplyId(),
                     $quizResponseReplyDTO->getMessage(),
                     $quizResponseReplyDTO->getSendedAt(),
                 );

@@ -1,7 +1,7 @@
 import { RegisterForm } from "@/components/organisms/RegisterForm";
 import { HeaderWithPage } from "@/components/templates/HeaderWithPage";
 
-const Register = () => {
+const Index = () => {
   return (
     <HeaderWithPage title="登録">
       <RegisterForm />
@@ -9,4 +9,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Index;

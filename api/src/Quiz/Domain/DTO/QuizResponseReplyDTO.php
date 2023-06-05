@@ -6,24 +6,39 @@ use Carbon\CarbonImmutable;
 
 class QuizResponseReplyDTO
 {
-    private int $replyId;
+    private int $quizResponseReplyId;
+    private int $quizResponseId;
+    private string $role;
     private string $message;
     private CarbonImmutable $sendedAt;
 
     private function __construct(
-        int $replyId,
+        int $quizResponseReplyId,
+        int $quizResponseId,
+        string $role,
         string $message,
         CarbonImmutable $sendedAt,
-    )
-    {
-        $this->replyId = $replyId;
+    ) {
+        $this->quizResponseReplyId = $quizResponseReplyId;
+        $this->quizResponseId = $quizResponseId;
+        $this->role = $role;
         $this->message = $message;
         $this->sendedAt = $sendedAt;
     }
 
-    public function getReplyId(): int
+    public function getRole(): string
     {
-        return $this->replyId;
+        return $this->role;
+    }
+
+    public function getQuizResponseReplyId(): int
+    {
+        return $this->quizResponseReplyId;
+    }
+
+    public function getQuizResponseId(): int
+    {
+        return $this->quizResponseId;
     }
 
     public function getMessage(): string
@@ -37,13 +52,16 @@ class QuizResponseReplyDTO
     }
 
     public static function from(
-        int $replyId,
+        int $quizResponseReplyId,
+        int $quizResponseId,
+        string $role,
         string $message,
         CarbonImmutable $sendedAt,
-    ): self
-    {
+    ): self {
         return new self(
-            $replyId,
+            $quizResponseReplyId,
+            $quizResponseId,
+            $role,
             $message,
             $sendedAt,
         );
