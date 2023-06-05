@@ -41,7 +41,6 @@ jobs:
         DB_DATABASE: ${{ secrets.DB_DATABASE }}
         DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
         AWS_USE_PATH_STYLE_ENDPOINT: ${{ secrets.AWS_USE_PATH_STYLE_ENDPOINT }}
         MYSQL_ATTR_SSL_CA: ${{ secrets.MYSQL_ATTR_SSL_CA }}
