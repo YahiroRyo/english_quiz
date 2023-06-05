@@ -11,6 +11,7 @@ main() {
         echo "DB_DATABASE: $DB_DATABASE"
         echo "DB_USER_NAME: $DB_USER_NAME"
         echo "DB_PASSWORD: $DB_PASSWORD"
+        echo "AWS_URL: $AWS_URL"
         echo "AWS_BUCKET: $AWS_BUCKET"
         echo "AWS_USE_PATH_STYLE_ENDPOINT: $AWS_USE_PATH_STYLE_ENDPOINT"
         echo "MYSQL_ATTR_SSL_CA: $MYSQL_ATTR_SSL_CA"
