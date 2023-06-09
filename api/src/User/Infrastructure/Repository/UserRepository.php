@@ -73,6 +73,7 @@ class UserRepository implements \Eng\User\Infrastructure\Repository\Interface\Us
             ]);
             /** @var ActiveUser */
             $activeUser = ActiveUser::create([
+                'user_id'     => $user->getUserId(),
                 'personality' => $userDTO->getPersonality(),
                 'name'        => $userDTO->getName(),
                 'icon'        => $userDTO->getIcon(),

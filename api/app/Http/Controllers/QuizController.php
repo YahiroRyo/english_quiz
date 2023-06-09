@@ -12,10 +12,10 @@ use App\Http\Response\Quiz\GetQuizListResponse;
 use App\Http\Response\Quiz\GetQuizResponse;
 use App\Http\Response\Quiz\QuizCategoryListResponse;
 use App\Http\Response\Quiz\QuizCategoryResponse;
+use App\Jobs\CreateQuizListJob;
 use Carbon\CarbonImmutable;
 use Eng\Quiz\Domain\DTO\AddMessageToQuizDTO;
 use Eng\Quiz\Service\Command\AddMessageService;
-use Eng\Quiz\Service\Command\CreateQuizService;
 use Eng\Quiz\Service\Query\GetQuizListService;
 use Eng\Quiz\Service\Query\GetQuizService;
 use Eng\Quiz\Service\Query\QuizCategoryListService;
@@ -26,7 +26,6 @@ class QuizController extends Controller
 {
     private QuizCategoryListService $quizCategoryListService;
     private QuizCategoryService $quizCategoryService;
-    private CreateQuizService $createQuizService;
     private GetQuizListService $getQuizListService;
     private GetQuizService $getQuizService;
     private AddMessageService $addMessageService;
@@ -34,14 +33,12 @@ class QuizController extends Controller
     public function __construct(
         QuizCategoryListService $quizCategoryListService,
         QuizCategoryService $quizCategoryService,
-        CreateQuizService $createQuizService,
         GetQuizListService $getQuizListService,
         GetQuizService $getQuizService,
         AddMessageService $addMessageService
     ) {
         $this->quizCategoryListService = $quizCategoryListService;
         $this->quizCategoryService = $quizCategoryService;
-        $this->createQuizService = $createQuizService;
         $this->getQuizListService = $getQuizListService;
         $this->getQuizService = $getQuizService;
         $this->addMessageService = $addMessageService;
@@ -63,9 +60,12 @@ class QuizController extends Controller
 
     public function createQuiz(CreateQuizRequest $request): JsonResponse
     {
-        $quizList = $this->createQuizService->execute($request->validated()['quizCategoryId']);
+        CreateQuizListJob::dispatch(
+            $request->validated('quizCategoryId'),
+            auth()->id(),
+        );
 
-        return CreateQuizListResponse::success($quizList);
+        return CreateQuizListResponse::success();
     }
 
     public function getQuizList(GetQuizListRequest $request): JsonResponse

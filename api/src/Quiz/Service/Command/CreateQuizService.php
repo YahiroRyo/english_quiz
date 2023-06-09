@@ -2,7 +2,6 @@
 
 namespace Eng\Quiz\Service\Command;
 
-use Eng\Chatgpt\Domain\DTO\InitChatDTO;
 use Eng\Quiz\Infrastructure\Repository\Interface\QuizRepository;
 use Eng\Chatgpt\Infrastructure\Repository\Interface\ChatgptRepository;
 use Eng\Quiz\Domain\DTO\QuizDTO;
@@ -33,28 +32,28 @@ class CreateQuizService
     }
 
     /** @return QuizEntity[] */
-    public function execute(int $quizCategoryId): array
+    public function execute(int $quizCategoryId, int $userId): array
     {
-        return DB::transaction(function () use ($quizCategoryId) {
-            $quizCategory = $this->quizCategoryRepo->findOneByQuizCategoryId($quizCategoryId);
+        $quizCategory = $this->quizCategoryRepo->findOneByQuizCategoryId($quizCategoryId);
 
-            $me = $this->userRepo->findMe();
+        $prompt = QuizConstants::createQuizPrompt($quizCategory->getFormalName());
+        $createdChatMessage = $this->chatgptRepo->createChatOne($prompt);
 
-            $prompt = QuizConstants::createQuizPrompt($quizCategory->getFormalName());
-            $createdChatMessage = $this->chatgptRepo->createChat(InitChatDTO::from(
-                $prompt,
-                [],
-            ));
-
+        return DB::transaction(function () use ($quizCategory, $userId, $prompt, $createdChatMessage) {
             /** @var array */
-            $quizListFromChatMessage = json_decode($createdChatMessage->getContent(), true, 512, JSON_THROW_ON_ERROR);
+            $quizListFromChatMessage = json_decode(
+                '{ "quizzes": [' . $createdChatMessage->getContent(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
 
             $quizList = $this->quizRepo->createQuizList(
                 array_map(
-                    function (array $quizFromChatMessage) use ($quizCategory, $me, $prompt) {
+                    function (array $quizFromChatMessage) use ($quizCategory, $userId, $prompt) {
                         return QuizDTO::from(
                             QuizConstants::DEFAULT_QUIZ_ID,
-                            $me->getUserId(),
+                            $userId,
                             $quizFromChatMessage['question'],
                             $quizFromChatMessage['answer'],
                             $prompt,

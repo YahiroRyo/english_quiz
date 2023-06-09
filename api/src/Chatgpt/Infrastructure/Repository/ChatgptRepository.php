@@ -52,4 +52,34 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
             $responseMessage['content'],
         );
     }
+
+    public function createChatOne(string $prompt): ChatMessageDTO
+    {
+        $response = $this->client->request(
+            'POST',
+            'https://api.openai.com/v1/completions',
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . config('chatgpt.token'),
+                ],
+                'json'    => [
+                    'model'       => 'text-davinci-003',
+                    'prompt'      => $prompt,
+                    'temperature' => 0.5,
+                    'max_tokens'  => 2048,
+                ],
+            ]
+        );
+
+        $content = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        $responseMessage = $content['choices'][0]['text'];
+
+        logs()->debug($responseMessage);
+
+        return ChatMessageDTO::from(
+            ChatRole::ASSISTANT,
+            $responseMessage,
+        );
+    }
 }

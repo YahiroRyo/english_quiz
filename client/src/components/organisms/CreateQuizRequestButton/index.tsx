@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { apiCreateQuizList } from "@/modules/api/quiz";
-import { useState } from "react";
 
 export const CreateQuizRequestButton = () => {
   const router = useRouter();
@@ -16,7 +15,6 @@ export const CreateQuizRequestButton = () => {
   const { quizCategoryId } = router.query;
   const { data, error, isLoading, status, mutate, retryCount, initRetryCount } =
     apiQuizCategory(Number(quizCategoryId), user?.token);
-  const [isDisabled, setIsDisabled] = useState(false);
 
   if (!isReady || isLoading) {
     <></>;
@@ -45,13 +43,11 @@ export const CreateQuizRequestButton = () => {
   }
 
   const handleClickButton = async () => {
-    setIsDisabled(true);
     await apiCreateQuizList(data.data.quizCategoryId, user?.token!);
-    setIsDisabled(false);
   };
 
   return (
-    <BorderRedButton disabled={isDisabled} onClick={handleClickButton}>
+    <BorderRedButton onClick={handleClickButton}>
       <div className={styles.button}>
         <FontAwesomeIcon icon={faPlus} />
         {`${data.data.name}に関する問題の作成をリクエスト`}
