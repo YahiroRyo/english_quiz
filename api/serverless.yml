@@ -9,7 +9,7 @@ provider:
   environment:
     APP_NAME: EnglishQuiz
     APP_ENV: production
-    VIEW_COMPILED_PATH: /tmp/storage/framework/views
+    VIEW_COMPILED_PATH: /tmp
     APP_STORAGE: '/tmp'
 
 custom:
@@ -34,7 +34,7 @@ package:
 functions:
   web:
     handler: public/index.php
-    timeout: 120
+    timeout: 29
     layers:
       - ${bref:layer.php-82-fpm}
       - ${bref-extra:gd-php-82}
@@ -57,10 +57,12 @@ functions:
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
+      QUEUE_CONNECTION: ${self:custom.environments.QUEUE_CONNECTION}
+      QUEUE_DIRVER: ${self:custom.environments.QUEUE_DIRVER}
 
   artisan:
     handler: artisan
-    timeout: 120
+    timeout: 900
     layers:
       - ${bref:layer.php-82-fpm}
       - ${bref-extra:gd-php-82}
@@ -81,10 +83,12 @@ functions:
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
+      QUEUE_CONNECTION: ${self:custom.environments.QUEUE_CONNECTION}
+      QUEUE_DIRVER: ${self:custom.environments.QUEUE_DIRVER}
     events:
       - schedule:
-          rate: cron(0/15 * * * * *)
-          input: '"php artisan queue:work"'
+          rate: cron(0/15 * * * ? *)
+          input: '"queue:work"'
 
 plugins:
   - ./vendor/bref/bref

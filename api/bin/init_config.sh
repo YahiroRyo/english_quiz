@@ -17,6 +17,8 @@ main() {
         echo "MYSQL_ATTR_SSL_CA: $MYSQL_ATTR_SSL_CA"
         echo "SESSION_DRIVER: $SESSION_DRIVER"
         echo "CACHE_DRIVER: $CACHE_DRIVER"
+        echo "QUEUE_CONNECTION: $QUEUE_CONNECTION"
+        echo "QUEUE_DIRVER: $QUEUE_DIRVER"
     } >> ./config/config.yml
 }
 
