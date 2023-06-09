@@ -8,4 +8,6 @@ use Eng\Chatgpt\Domain\DTO\InitChatDTO;
 interface ChatgptRepository
 {
     public function createChat(InitChatDTO $initChatDTO): ChatMessageDTO;
+
+    public function createChatOne(string $prompt): ChatMessageDTO;
 }

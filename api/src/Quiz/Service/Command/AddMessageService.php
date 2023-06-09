@@ -13,10 +13,8 @@ use Eng\Quiz\Domain\DTO\QuizDTO;
 use Eng\Quiz\Domain\DTO\QuizResponseDTO;
 use Eng\Quiz\Domain\DTO\QuizResponseReplyDTO;
 use Eng\Quiz\Domain\DTO\SearchQuizDTO;
-use Eng\Quiz\Domain\Entity\QuizCategoryEntity;
 use Eng\Quiz\Domain\Entity\QuizConstants;
 use Eng\Quiz\Domain\Entity\QuizEntity;
-use Eng\Quiz\Domain\Entity\QuizResponseEntity;
 use Eng\Quiz\Domain\Entity\QuizResponseReplyEntity;
 use Eng\User\Infrastructure\Repository\Interface\UserRepository;
 
