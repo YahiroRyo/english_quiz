@@ -35,23 +35,19 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                 'question'         => $quizDTO->getQuestion(),
                 'answer'           => $quizDTO->getAnswer(),
             ]);
-
-            array_push(
-                $result,
-                QuizDTO::from(
-                    $quiz->getQuizId(),
-                    $quiz->getUserId(),
-                    $quiz->getQuestion(),
-                    $quiz->getAnswer(),
-                    $quiz->getPrompt(),
-                    $quizDTO->getQuizCategoryDTO(),
-                    QuizResponseDTO::from(
-                        QuizConstants::DEFAULT_QUIZ_RESPONSE_ID,
-                        QuizConstants::UNRESPONSIVE,
-                        false,
-                        [],
-                    )
-                ),
+            $result[] = QuizDTO::from(
+                $quiz->getQuizId(),
+                $quiz->getUserId(),
+                $quiz->getQuestion(),
+                $quiz->getAnswer(),
+                $quiz->getPrompt(),
+                $quizDTO->getQuizCategoryDTO(),
+                QuizResponseDTO::from(
+                    QuizConstants::DEFAULT_QUIZ_RESPONSE_ID,
+                    QuizConstants::UNRESPONSIVE,
+                    false,
+                    [],
+                )
             );
         }
 
