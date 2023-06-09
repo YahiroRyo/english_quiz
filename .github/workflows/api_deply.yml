@@ -47,6 +47,8 @@ jobs:
         MYSQL_ATTR_SSL_CA: ${{ secrets.MYSQL_ATTR_SSL_CA }}
         SESSION_DRIVER: ${{ secrets.SESSION_DRIVER }}
         CACHE_DRIVER: ${{ secrets.CACHE_DRIVER }}
+        QUEUE_CONNECTION: ${{ secrets.QUEUE_CONNECTION }}
+        QUEUE_DIRVER: ${{ secrets.QUEUE_DIRVER }}
       run: |
         bash ./bin/init_config.sh
     - name: copy .crt

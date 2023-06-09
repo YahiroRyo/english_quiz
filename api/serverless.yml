@@ -57,6 +57,8 @@ functions:
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
+      QUEUE_CONNECTION: ${self:custom.environments.QUEUE_CONNECTION}
+      QUEUE_DIRVER: ${self:custom.environments.QUEUE_DIRVER}
 
   artisan:
     handler: artisan
@@ -81,6 +83,8 @@ functions:
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
+      QUEUE_CONNECTION: ${self:custom.environments.QUEUE_CONNECTION}
+      QUEUE_DIRVER: ${self:custom.environments.QUEUE_DIRVER}
     events:
       - schedule:
           rate: cron(0/15 * * * ? *)
