@@ -66,7 +66,7 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
                 'json'    => [
                     'model'       => 'text-davinci-003',
                     'prompt'      => $prompt,
-                    'temperature' => 0.5,
+                    'temperature' => 0.7,
                     'max_tokens'  => 2048,
                 ],
             ]

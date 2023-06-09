@@ -42,7 +42,7 @@ class CreateQuizService
         return DB::transaction(function () use ($quizCategory, $userId, $prompt, $createdChatMessage) {
             /** @var array */
             $quizListFromChatMessage = json_decode(
-                '{ "quizzes": [' . $createdChatMessage->getContent(),
+                QuizConstants::BEGIN_JSON_FOR_CREATE_QUIZ_PROMPT . $createdChatMessage->getContent(),
                 true,
                 512,
                 JSON_THROW_ON_ERROR
