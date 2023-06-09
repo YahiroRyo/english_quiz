@@ -9,7 +9,7 @@ provider:
   environment:
     APP_NAME: EnglishQuiz
     APP_ENV: production
-    VIEW_COMPILED_PATH: /tmp/storage/framework/views
+    VIEW_COMPILED_PATH: /tmp
     APP_STORAGE: '/tmp'
 
 custom:
@@ -34,7 +34,7 @@ package:
 functions:
   web:
     handler: public/index.php
-    timeout: 120
+    timeout: 29
     layers:
       - ${bref:layer.php-82-fpm}
       - ${bref-extra:gd-php-82}
@@ -62,7 +62,7 @@ functions:
 
   artisan:
     handler: artisan
-    timeout: 120
+    timeout: 900
     layers:
       - ${bref:layer.php-82-fpm}
       - ${bref-extra:gd-php-82}
