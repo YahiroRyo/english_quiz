@@ -4,13 +4,16 @@ namespace Eng\Quiz\Domain\Entity;
 
 class QuizConstants
 {
-    public const DEFAULT_QUIZ_ID                = 0;
-    public const DEFAULT_QUIZ_RESPONSE_ID       = 0;
-    public const DEFAULT_QUIZ_RESPONSE_REPLY_ID = 0;
-    public const UNRESPONSIVE                   = '__UNRESPONSIVE__';
+    public const DEFAULT_QUIZ_ID                   = 0;
+    public const DEFAULT_QUIZ_RESPONSE_ID          = 0;
+    public const DEFAULT_QUIZ_RESPONSE_REPLY_ID    = 0;
+    public const UNRESPONSIVE                      = '__UNRESPONSIVE__';
+    public const BEGIN_JSON_FOR_CREATE_QUIZ_PROMPT = '{"quizzes":[';
 
     public static function createQuizPrompt(string $wordClass): string
     {
+        $beginJson = self::BEGIN_JSON_FOR_CREATE_QUIZ_PROMPT;
+
         return <<<EOM
         #命令書:
         あなたは、[日本人学生を対象としたアメリカ人プロの英語講師]です。以下の制約条件に基づいて、特定の文法ポイントや語彙テーマに関連する英訳問題を10問作成してください。
@@ -21,7 +24,7 @@ class QuizConstants
         - 翻訳後は必ず文にしてください
         - 出力フォーマットは、questionとanswerキーのJSON形式で出力を行い、それらをquizzesキーの配列でラップしてください
         # 出力文:
-        {"quizzes":[
+        {$beginJson}
         EOM;
     }
 
@@ -47,6 +50,7 @@ class QuizConstants
         - 以下のフォーマットで絶対に回答してください
         - 正否は、正解だった場合true、不正解だった場合はfalseを入れてください
         - 解説は、必ず日本語で行ってください
+        - 解説には、必ず問題の正解を入れてください
         ```
         {"is_correct": "正否","explanation": "解説"}
         ```
