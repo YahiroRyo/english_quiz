@@ -61,7 +61,7 @@ export const QuizCategoryList = () => {
                 : ""
             }`}
             key={quizCategory.quizCategoryId}
-            href={`${ROUTE_PATHNAME.QUIZ}/${quizCategory.quizCategoryId}`}
+            href={`${ROUTE_PATHNAME.QUIZ}/quizCategory?quizCategoryId=${quizCategory.quizCategoryId}`}
           >
             <SmallBlackBoldText>
               <div className={styles.quizCategoryLinkText}>

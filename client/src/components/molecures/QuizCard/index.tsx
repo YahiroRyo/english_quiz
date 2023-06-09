@@ -37,7 +37,7 @@ export const QuizCard = ({
   return (
     <Link
       className={styles.quizCardLink}
-      href={`${ROUTE_PATHNAME.QUIZ}/${quizCategoryId}/${quizId}`}
+      href={`${ROUTE_PATHNAME.QUIZ}/question?quizCategoryId=${quizCategoryId}&quizId=${quizId}`}
     >
       <div className={styles.quizCard}>
         <CorrectIcon />
