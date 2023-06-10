@@ -75,7 +75,7 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
         $content = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         $responseMessage = $content['choices'][0]['text'];
 
-        logs()->debug($responseMessage);
+        logs()->info($responseMessage);
 
         return ChatMessageDTO::from(
             ChatRole::ASSISTANT,

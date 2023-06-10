@@ -12,7 +12,7 @@ return new class () extends Migration {
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->id('quiz_id');
 
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->index();
             $table->foreignId('quiz_category_id');
             $table->text('prompt');
             $table->text('question');
