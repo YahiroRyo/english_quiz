@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use Eng\Chatgpt\Infrastructure\Repository\ChatgptRepository;
+use Eng\Quiz\Infrastructure\Repository\CreatableQuizStatusRepository;
 use Eng\Quiz\Infrastructure\Repository\QuizCategoryRepository;
 use Eng\Quiz\Infrastructure\Repository\QuizRepository;
 use Eng\Quiz\Service\Command\CreateQuizService;
-use Eng\User\Infrastructure\Repository\UserRepository;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -34,8 +34,8 @@ class CreateQuizListJob implements ShouldQueue
     {
         $createQuizService = new CreateQuizService(
             new QuizRepository(),
-            new UserRepository(),
             new QuizCategoryRepository(),
+            new CreatableQuizStatusRepository(),
             new ChatgptRepository(new Client()),
         );
         $createQuizService->execute($this->quizCategoryId, $this->userId);

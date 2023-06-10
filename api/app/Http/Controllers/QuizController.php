@@ -11,10 +11,10 @@ use App\Http\Response\Quiz\GetQuizListResponse;
 use App\Http\Response\Quiz\GetQuizResponse;
 use App\Http\Response\Quiz\QuizCategoryListResponse;
 use App\Http\Response\Quiz\QuizCategoryResponse;
-use App\Jobs\CreateQuizListJob;
 use Carbon\CarbonImmutable;
 use Eng\Quiz\Domain\DTO\AddMessageToQuizDTO;
 use Eng\Quiz\Service\Command\AddMessageService;
+use Eng\Quiz\Service\Command\CreateQuizListJobService;
 use Eng\Quiz\Service\Query\GetQuizListService;
 use Eng\Quiz\Service\Query\GetQuizService;
 use Eng\Quiz\Service\Query\QuizCategoryListService;
@@ -25,6 +25,7 @@ class QuizController extends Controller
 {
     private QuizCategoryListService $quizCategoryListService;
     private QuizCategoryService $quizCategoryService;
+    private CreateQuizListJobService $createQuizListJobService;
     private GetQuizListService $getQuizListService;
     private GetQuizService $getQuizService;
     private AddMessageService $addMessageService;
@@ -32,12 +33,14 @@ class QuizController extends Controller
     public function __construct(
         QuizCategoryListService $quizCategoryListService,
         QuizCategoryService $quizCategoryService,
+        CreateQuizListJobService $createQuizListJobService,
         GetQuizListService $getQuizListService,
         GetQuizService $getQuizService,
         AddMessageService $addMessageService
     ) {
         $this->quizCategoryListService = $quizCategoryListService;
         $this->quizCategoryService = $quizCategoryService;
+        $this->createQuizListJobService = $createQuizListJobService;
         $this->getQuizListService = $getQuizListService;
         $this->getQuizService = $getQuizService;
         $this->addMessageService = $addMessageService;
@@ -50,19 +53,16 @@ class QuizController extends Controller
         return QuizCategoryListResponse::success($quizCategoryList);
     }
 
-    public function category(int $quizCategoryId): JsonResponse
+    public function category(string $quizCategoryId): JsonResponse
     {
-        $quizCategory = $this->quizCategoryService->execute($quizCategoryId);
+        $quizCategory = $this->quizCategoryService->execute(intval($quizCategoryId));
 
         return QuizCategoryResponse::success($quizCategory);
     }
 
     public function createQuiz(CreateQuizRequest $request): JsonResponse
     {
-        CreateQuizListJob::dispatch(
-            $request->validated('quizCategoryId'),
-            auth()->id(),
-        );
+        $this->createQuizListJobService->execute($request->validated('quizCategoryId'));
 
         return CreateQuizListResponse::success();
     }
@@ -74,9 +74,9 @@ class QuizController extends Controller
         return GetQuizListResponse::success($searchedQuizList);
     }
 
-    public function getQuiz(int $quizId): JsonResponse
+    public function getQuiz(string $quizId): JsonResponse
     {
-        $quiz = $this->getQuizService->execute($quizId);
+        $quiz = $this->getQuizService->execute(intval($quizId));
 
         return GetQuizResponse::success($quiz);
     }

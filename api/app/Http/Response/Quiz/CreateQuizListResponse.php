@@ -9,8 +9,9 @@ class CreateQuizListResponse
     public static function success()
     {
         return Response::success(
-            'クイズの作成に成功しました。',
-            []
+            'クイズを作成中です。しばらくお待ちください。',
+            [],
+            202
         );
     }
 }
