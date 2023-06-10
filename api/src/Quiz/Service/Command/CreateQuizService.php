@@ -8,26 +8,26 @@ use Eng\Quiz\Domain\DTO\QuizDTO;
 use Eng\Quiz\Domain\DTO\QuizResponseDTO;
 use Eng\Quiz\Domain\Entity\QuizConstants;
 use Eng\Quiz\Domain\Entity\QuizEntity;
+use Eng\Quiz\Infrastructure\Repository\Interface\CreatableQuizStatusRepository;
 use Eng\Quiz\Infrastructure\Repository\Interface\QuizCategoryRepository;
-use Eng\User\Infrastructure\Repository\Interface\UserRepository;
 use Illuminate\Support\Facades\DB;
 
 class CreateQuizService
 {
     private QuizRepository $quizRepo;
-    private UserRepository $userRepo;
     private QuizCategoryRepository $quizCategoryRepo;
+    private CreatableQuizStatusRepository $creatableQuizStatusRepo;
     private ChatgptRepository $chatgptRepo;
 
     public function __construct(
         QuizRepository $quizRepo,
-        UserRepository $userRepo,
         QuizCategoryRepository $quizCategoryRepo,
+        CreatableQuizStatusRepository $creatableQuizStatusRepo,
         ChatgptRepository $chatgptRepo
     ) {
         $this->quizRepo = $quizRepo;
-        $this->userRepo = $userRepo;
         $this->quizCategoryRepo = $quizCategoryRepo;
+        $this->creatableQuizStatusRepo = $creatableQuizStatusRepo;
         $this->chatgptRepo = $chatgptRepo;
     }
 
@@ -69,6 +69,8 @@ class CreateQuizService
                     $quizListFromChatMessage['quizzes']
                 )
             );
+
+            $this->creatableQuizStatusRepo->delete($userId);
 
             return array_map(
                 function (QuizDTO $quiz) {

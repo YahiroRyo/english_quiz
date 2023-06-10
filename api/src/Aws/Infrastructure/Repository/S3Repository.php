@@ -5,6 +5,7 @@ namespace Eng\Aws\Infrastructure\Repository;
 use Carbon\CarbonImmutable;
 use Eng\Aws\Domain\DTO\PutImageDTO;
 use Eng\Aws\Domain\DTO\S3ImageDTO;
+use Eng\Aws\Infrastructure\Repository\Exception\FailUploadFileException;
 use Illuminate\Http\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +30,10 @@ class S3Repository implements \Eng\Aws\Infrastructure\Repository\Interface\S3Rep
             new File($tmpFileNameForThumbnail),
             'public'
         );
+        if (!$thumbnailFilePath) {
+            throw new FailUploadFileException();
+        }
+
         $explodedThumbnailFilePath  = explode('/', $thumbnailFilePath);
         $thumbnailFileName          = $explodedThumbnailFilePath[count($explodedThumbnailFilePath) - 1];
 
@@ -38,10 +43,13 @@ class S3Repository implements \Eng\Aws\Infrastructure\Repository\Interface\S3Rep
             $thumbnailFileName,
             'public'
         );
+        if (!$imageFilePath) {
+            throw new FailUploadFileException();
+        }
 
         return S3ImageDTO::from(
-            $s3Storage->url($imageFilePath),
-            $s3Storage->url($thumbnailFileName),
+            config('filesystems.disks.s3.url') . '/' . $imageFilePath,
+            config('filesystems.disks.s3.url') . '/' . $thumbnailFilePath,
         );
     }
 }

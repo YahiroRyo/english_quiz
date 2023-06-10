@@ -5,24 +5,19 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    private string $tableName = 'quiz_response_replies';
+    private string $tableName = 'creating_quizzes';
 
     public function up(): void
     {
         Schema::create($this->tableName, function (Blueprint $table) {
-            $table->id('quiz_response_reply_id');
+            $table->foreignId('user_id')->primary();
 
-            $table->foreignId('quiz_response_id')->index();
-            $table->string('role', 255);
-            $table->text('message');
             $table->timestamp('created_at')->useCurrent();
-
-            // $table->foreign('quiz_response_id')->references('quiz_response_id')->on('quiz_responses');
         });
     }
 
     public function down(): void
     {
-        Schema::drop($this->tableName);
+        Schema::dropIfExists($this->tableName);
     }
 };

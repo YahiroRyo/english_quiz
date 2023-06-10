@@ -3,6 +3,9 @@
 namespace App\Exceptions;
 
 use App\Http\Response\Response;
+use Eng\Aws\Infrastructure\Repository\Exception\FailUploadFileException;
+use Eng\Quiz\Service\Exception\AlreadyCreatingQuizException;
+use Eng\User\Service\Exception\AlreadyUsedUsernameException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -38,6 +41,15 @@ class Handler extends ExceptionHandler
         }
         if ($e instanceof AccessDeniedHttpException) {
             return Response::error('認証に失敗しました。', null, 403);
+        }
+        if ($e instanceof AlreadyCreatingQuizException) {
+            return Response::error('既にクイズは作成中のため、しばらくお待ち頂いた後、ページをロードしてください。', null, 429);
+        }
+        if ($e instanceof FailUploadFileException) {
+            return Response::error('ファイルのアップロードに失敗しました。', null, 500);
+        }
+        if ($e instanceof AlreadyUsedUsernameException) {
+            return Response::error('エラーが発生しました。', ['ユーザー名' => '既に使用されているユーザー名です。'], 400);
         }
 
         return parent::render($request, $e);

@@ -44,6 +44,7 @@ functions:
     environment:
       APP_KEY: ${self:custom.environments.APP_KEY}
       CHAT_GPT_TOKEN: ${self:custom.environments.CHAT_GPT_TOKEN}
+      LOG_LEVEL: ${self:custom.environments.LOG_LEVEL}
       LOG_CHANNEL: ${self:custom.environments.LOG_CHANNEL}
       DB_CONNECTION: ${self:custom.environments.DB_CONNECTION}
       DB_PORT: ${self:custom.environments.DB_PORT}
@@ -70,6 +71,7 @@ functions:
     environment:
       APP_KEY: ${self:custom.environments.APP_KEY}
       CHAT_GPT_TOKEN: ${self:custom.environments.CHAT_GPT_TOKEN}
+      LOG_LEVEL: ${self:custom.environments.LOG_LEVEL}
       LOG_CHANNEL: ${self:custom.environments.LOG_CHANNEL}
       DB_CONNECTION: ${self:custom.environments.DB_CONNECTION}
       DB_PORT: ${self:custom.environments.DB_PORT}
