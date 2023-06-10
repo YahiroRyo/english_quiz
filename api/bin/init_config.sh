@@ -5,6 +5,7 @@ main() {
         echo "APP_KEY: $APP_KEY"
         echo "CHAT_GPT_TOKEN: $CHAT_GPT_TOKEN"
         echo "LOG_CHANNEL: $LOG_CHANNEL"
+        echo "LOG_LEVEL: $LOG_LEVEL"
         echo "DB_CONNECTION: $DB_CONNECTION"
         echo "DB_PORT: $DB_PORT"
         echo "DB_HOST: $DB_HOST"

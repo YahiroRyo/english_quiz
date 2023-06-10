@@ -34,6 +34,7 @@ jobs:
       env:
         APP_KEY: ${{ secrets.APP_KEY }}
         CHAT_GPT_TOKEN: ${{ secrets.CHAT_GPT_TOKEN }}
+        LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
         LOG_CHANNEL: ${{ secrets.LOG_CHANNEL }}
         DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
         DB_PORT: ${{ secrets.DB_PORT }}
