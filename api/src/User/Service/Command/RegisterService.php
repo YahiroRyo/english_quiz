@@ -9,6 +9,7 @@ use Eng\User\Domain\DTO\InitUserDTO;
 use Eng\User\Domain\DTO\UserDTO;
 use Eng\User\Domain\Entity\InitUserConstants;
 use Eng\User\Infrastructure\Repository\Interface\UserRepository;
+use Eng\User\Service\Exception\AlreadyUsedUsernameException;
 use Illuminate\Support\Facades\DB;
 
 class RegisterService
@@ -34,6 +35,10 @@ class RegisterService
                 50,
                 15,
             ));
+
+            if ($this->userRepo->findOneUnsafetyUserByUsername($initUserDTO->getUsername())) {
+                throw new AlreadyUsedUsernameException();
+            }
 
             $createdUser = $this->userRepo->upsert(UserDTO::from(
                 InitUserConstants::DEFAULT_USER_ID,

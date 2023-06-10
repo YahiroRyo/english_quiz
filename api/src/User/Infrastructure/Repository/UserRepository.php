@@ -58,6 +58,29 @@ class UserRepository implements \Eng\User\Infrastructure\Repository\Interface\Us
         );
     }
 
+    public function findOneUnsafetyUserByUsername(string $username): ?UserDTO
+    {
+        /** @var ?User */
+        $user = User::doesntHave('nonActiveUser')
+            ->with('activeUser')
+            ->where('username', $username)
+            ->first();
+
+        if (!$user) {
+            return null;
+        }
+
+        return UserDTO::from(
+            $user->getUserId(),
+            $user->getUsername(),
+            $user->getPassword(),
+            $user->getRememberToken(),
+            $user->getActiveUser()->getPersonality(),
+            $user->getActiveUser()->getName(),
+            $user->getActiveUser()->getIcon(),
+        );
+    }
+
     public function upsert(UserDTO $userDTO): UserDTO
     {
         /** @var ?User */

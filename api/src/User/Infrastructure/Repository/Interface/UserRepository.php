@@ -11,6 +11,8 @@ interface UserRepository
 
     public function findOneByCredential(CredentialDTO $credentialDTO): UserDTO;
 
+    public function findOneUnsafetyUserByUsername(string $username): ?UserDTO;
+
     public function upsert(UserDTO $userDTO): UserDTO;
 
     public function createTokenByUserId(int $userId): UserDTO;
