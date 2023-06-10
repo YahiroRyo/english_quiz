@@ -28,8 +28,8 @@ jobs:
           NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
           NEXT_PUBLIC_SSG_API_URL: ${{ vars.NEXT_PUBLIC_SSG_API_URL }}
         run:  |
-          yarn build && yarn export
           bash ./bin/init_env.sh
+          yarn build && yarn export
 
       - name: Deploy
         env:
