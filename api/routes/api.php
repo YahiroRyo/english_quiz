@@ -15,14 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('/quiz')->group(function () {
+    Route::prefix('/categoryList')->group(function () {
+        Route::get('/', [QuizController::class, 'categoryList']);
+        Route::get('/{quizCategoryId}', [QuizController::class, 'category']);
+    });
+});
+
+Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/register', [UserController::class, 'register']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::prefix('/quiz')->group(function () {
-        Route::prefix('/categoryList')->group(function () {
-            Route::get('/', [QuizController::class, 'categoryList']);
-            Route::get('/{quizCategoryId}', [QuizController::class, 'category']);
-        });
         Route::get('/', [QuizController::class, 'getQuizList']);
         Route::post('/', [QuizController::class, 'createQuiz']);
 
@@ -32,6 +38,3 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 });
-
-Route::post('/login', [UserController::class, 'login'])->name('login');
-Route::post('/register', [UserController::class, 'register']);

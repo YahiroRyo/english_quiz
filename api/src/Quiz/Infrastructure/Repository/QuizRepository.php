@@ -75,7 +75,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                 ]);
 
                 $notSavedQuizResponseReplyDTOList = collect($quizDTO->getQuizResponseDTO()->getReplyList())
-                    ->filter(function(QuizResponseReplyDTO $quizResponseReplyDTO) {
+                    ->filter(function (QuizResponseReplyDTO $quizResponseReplyDTO) {
                         return $quizResponseReplyDTO->getQuizResponseReplyId() === QuizConstants::DEFAULT_QUIZ_RESPONSE_REPLY_ID;
                     });
 

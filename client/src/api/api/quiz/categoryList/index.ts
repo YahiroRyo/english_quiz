@@ -7,9 +7,6 @@ export type GetResponse = {
 
 export interface Methods {
   get: {
-    reqHeaders: {
-      Authorization: string;
-    };
     resBody: GetResponse;
   };
 }

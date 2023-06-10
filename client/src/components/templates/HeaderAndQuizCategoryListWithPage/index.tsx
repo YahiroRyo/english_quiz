@@ -1,18 +1,21 @@
 import { Header } from "@/components/organisms/Header";
+import { QuizCategoryList } from "@/components/organisms/QuizCategoryList";
+import { QuizCategory } from "@/types/quiz";
 import Head from "next/head";
 import styles from "./index.module.scss";
-import { QuizCategoryList } from "@/components/organisms/QuizCategoryList";
 
 type Props = {
   children?: React.ReactNode;
   title: string;
   description?: string;
+  quizCategoryList: QuizCategory[];
 };
 
 export const HeaderAndQuizCategoryListWithPage = ({
   children,
   title,
   description,
+  quizCategoryList,
 }: Props) => {
   return (
     <>
@@ -23,7 +26,7 @@ export const HeaderAndQuizCategoryListWithPage = ({
 
       <Header />
       <main className={styles.main}>
-        <QuizCategoryList />
+        <QuizCategoryList quizCategoryList={quizCategoryList} />
         <div className={styles.mainContents}>{children}</div>
       </main>
     </>

@@ -62,16 +62,16 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             const prefix3 = `${PATH4}/${val3}`
 
             return {
-              get: (option: { headers: Methods6['get']['reqHeaders'], config?: T | undefined }) =>
+              get: (option?: { config?: T | undefined } | undefined) =>
                 fetch<Methods6['get']['resBody']>(prefix, prefix3, GET, option).json(),
-              $get: (option: { headers: Methods6['get']['reqHeaders'], config?: T | undefined }) =>
+              $get: (option?: { config?: T | undefined } | undefined) =>
                 fetch<Methods6['get']['resBody']>(prefix, prefix3, GET, option).json().then(r => r.body),
               $path: () => `${prefix}${prefix3}`
             }
           },
-          get: (option: { headers: Methods5['get']['reqHeaders'], config?: T | undefined }) =>
+          get: (option?: { config?: T | undefined } | undefined) =>
             fetch<Methods5['get']['resBody']>(prefix, PATH4, GET, option).json(),
-          $get: (option: { headers: Methods5['get']['reqHeaders'], config?: T | undefined }) =>
+          $get: (option?: { config?: T | undefined } | undefined) =>
             fetch<Methods5['get']['resBody']>(prefix, PATH4, GET, option).json().then(r => r.body),
           $path: () => `${prefix}${PATH4}`
         },

@@ -2,61 +2,65 @@ import { Alert } from "@/components/molecures/Alert";
 import { CreateQuizRequestButton } from "@/components/organisms/CreateQuizRequestButton";
 import { QuizList } from "@/components/organisms/QuizList";
 import { HeaderAndQuizCategoryListWithPage } from "@/components/templates/HeaderAndQuizCategoryListWithPage";
-import { ROUTE_PATHNAME } from "@/constants/route";
-import { useSafePush } from "@/hooks/route/useSafePush";
-import { useAuth } from "@/hooks/user/useAuth";
+import { apiQuizCategoryList } from "@/modules/api/quiz/category";
 import { apiQuizCategory } from "@/modules/api/quiz/category/quizCategoryId";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
-const Index = () => {
+const Index = ({
+  quizCategoryJson,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
-  const safePush = useSafePush();
-  const [user, setUser, isReady] = useAuth();
   const { quizCategoryId } = router.query;
-  const [retryCount, setRetryCount] = useState(0);
 
-  const { data, error, isLoading, status, mutate, initRetryCount } =
-    apiQuizCategory(Number(quizCategoryId), user?.token);
+  const { data, error, isLoading, initRetryCount } = apiQuizCategory(
+    Number(quizCategoryId)
+  );
 
-  if (!isReady || isLoading) {
-    <HeaderAndQuizCategoryListWithPage title="ロード中"></HeaderAndQuizCategoryListWithPage>;
-  }
-
-  if (status === 401 || status == 403) {
-    if (retryCount >= 5) {
-      initRetryCount();
-      setUser(undefined);
-      safePush(ROUTE_PATHNAME.LOGIN);
-      return (
-        <HeaderAndQuizCategoryListWithPage title="ロード中"></HeaderAndQuizCategoryListWithPage>
-      );
-    }
-
-    mutate();
-    setRetryCount((count) => count + 1);
-    <HeaderAndQuizCategoryListWithPage title="ロード中"></HeaderAndQuizCategoryListWithPage>;
+  if (isLoading) {
+    <HeaderAndQuizCategoryListWithPage
+      quizCategoryList={JSON.parse(quizCategoryJson)}
+      title="ロード中"
+    ></HeaderAndQuizCategoryListWithPage>;
   }
 
   if (error) {
     return (
-      <HeaderAndQuizCategoryListWithPage title="エラー">
+      <HeaderAndQuizCategoryListWithPage
+        quizCategoryList={JSON.parse(quizCategoryJson)}
+        title="エラー"
+      >
         <Alert designType="error">{error}</Alert>
       </HeaderAndQuizCategoryListWithPage>
     );
   }
 
   if (!data) {
-    return <></>;
+    return (
+      <HeaderAndQuizCategoryListWithPage
+        quizCategoryList={JSON.parse(quizCategoryJson)}
+        title="データが存在しません"
+      ></HeaderAndQuizCategoryListWithPage>
+    );
   }
   initRetryCount();
 
   return (
-    <HeaderAndQuizCategoryListWithPage title={`${data?.data.name}の勉強`}>
+    <HeaderAndQuizCategoryListWithPage
+      quizCategoryList={JSON.parse(quizCategoryJson)}
+      title={`${data.data.name}の勉強`}
+    >
       <CreateQuizRequestButton />
       <QuizList />
     </HeaderAndQuizCategoryListWithPage>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await apiQuizCategoryList();
+  const quizCategoryJson = JSON.stringify(res.data);
+
+  return { props: { quizCategoryJson } };
 };
 
 export default Index;
