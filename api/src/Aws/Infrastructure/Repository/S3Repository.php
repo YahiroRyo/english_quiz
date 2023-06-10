@@ -40,8 +40,8 @@ class S3Repository implements \Eng\Aws\Infrastructure\Repository\Interface\S3Rep
         );
 
         return S3ImageDTO::from(
-            $s3Storage->url($imageFilePath),
-            $s3Storage->url($thumbnailFileName),
+            config('filesystems.disks.s3.url') . $imageFilePath,
+            config('filesystems.disks.s3.url') . $thumbnailFilePath,
         );
     }
 }

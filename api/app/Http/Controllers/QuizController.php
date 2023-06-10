@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Quiz\AddMessageRequest;
 use App\Http\Requests\Quiz\CreateQuizRequest;
 use App\Http\Requests\Quiz\GetQuizListRequest;
-use App\Http\Requests\Quiz\GetQuizRequest;
 use App\Http\Response\Quiz\AddMessageResponse;
 use App\Http\Response\Quiz\CreateQuizListResponse;
 use App\Http\Response\Quiz\GetQuizListResponse;
