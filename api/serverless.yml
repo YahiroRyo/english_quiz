@@ -52,7 +52,7 @@ functions:
       DB_DATABASE: ${self:custom.environments.DB_DATABASE}
       DB_USERNAME: ${self:custom.environments.DB_USER_NAME}
       DB_PASSWORD: ${self:custom.environments.DB_PASSWORD}
-      # AWS_URL: ${self:custom.environments.AWS_URL}
+      AWS_URL: ${self:custom.environments.AWS_URL}
       AWS_BUCKET: ${self:custom.environments.AWS_BUCKET}
       AWS_USE_PATH_STYLE_ENDPOINT: ${self:custom.environments.AWS_USE_PATH_STYLE_ENDPOINT}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
@@ -79,7 +79,7 @@ functions:
       DB_DATABASE: ${self:custom.environments.DB_DATABASE}
       DB_USERNAME: ${self:custom.environments.DB_USER_NAME}
       DB_PASSWORD: ${self:custom.environments.DB_PASSWORD}
-      # AWS_URL: ${self:custom.environments.AWS_URL}
+      AWS_URL: ${self:custom.environments.AWS_URL}
       AWS_BUCKET: ${self:custom.environments.AWS_BUCKET}
       AWS_USE_PATH_STYLE_ENDPOINT: ${self:custom.environments.AWS_USE_PATH_STYLE_ENDPOINT}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
