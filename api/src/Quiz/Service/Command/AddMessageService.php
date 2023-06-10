@@ -82,6 +82,23 @@ class AddMessageService
             return QuizEntity::fromDTO($createdQuizDTO);
         }
 
+        $convertToDTOCommand = function (QuizResponseReplyEntity $quizResponseReplyEntity, int $index) use ($quizEntity) {
+            if ($index === 0) {
+                return ChatMessageDTO::from(
+                    $quizResponseReplyEntity->getRole(),
+                    json_encode([
+                        'is_correct'  => $quizEntity->getQuizResponseEntity()->getIsCorrect() ? 'true' : 'false',
+                        'explanation' => $quizResponseReplyEntity->getMessage(),
+                    ], JSON_THROW_ON_ERROR),
+                );
+            }
+
+            return ChatMessageDTO::from(
+                $quizResponseReplyEntity->getRole(),
+                $quizResponseReplyEntity->getMessage(),
+            );
+        };
+
         $responseChatMessage = $this->chatgptRepo->createChat(InitChatDTO::from(
             QuizConstants::quizSolutionInsight(
                 $quizEntity->getQuestion(),
@@ -89,22 +106,7 @@ class AddMessageService
                 $quizEntity->getQuizResponseEntity()->getResponse(),
             ),
             collect($quizEntity->getQuizResponseEntity()->getReplyList())
-                ->map(function (QuizResponseReplyEntity $quizResponseReplyEntity, int $index) use ($quizEntity) {
-                    if ($index === 0) {
-                        return ChatMessageDTO::from(
-                            $quizResponseReplyEntity->getRole(),
-                            json_encode([
-                                'is_correct'  => $quizEntity->getQuizResponseEntity()->getIsCorrect() ? 'true' : 'false',
-                                'explanation' => $quizResponseReplyEntity->getMessage(),
-                            ], JSON_THROW_ON_ERROR),
-                        );
-                    }
-
-                    return ChatMessageDTO::from(
-                        $quizResponseReplyEntity->getRole(),
-                        $quizResponseReplyEntity->getMessage(),
-                    );
-                })
+                ->map($convertToDTOCommand)
                 ->merge([
                     ChatMessageDTO::from(
                         ChatRole::USER,

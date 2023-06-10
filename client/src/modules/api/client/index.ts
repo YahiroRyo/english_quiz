@@ -9,6 +9,24 @@ const retryCount: { [key: string]: number } = {};
 
 // eslint-disable-next-line
 export const apiClient = (config?: AxiosRequestConfig<any> | undefined) => {
+  if (typeof window === "undefined") {
+    return api(
+      aspida(
+        axios.create(),
+        Object.assign(
+          {
+            baseURL: process.env.NEXT_PUBLIC_SSG_API_URL,
+            paramsSerializer: {
+              indexes: false,
+            },
+            withCredentials: true,
+          },
+          config
+        )
+      )
+    ) as ApiInstance;
+  }
+
   return api(
     aspida(
       axios.create(),
