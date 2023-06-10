@@ -12,7 +12,7 @@ return new class () extends Migration {
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->id('quiz_response_reply_id');
 
-            $table->foreignId('quiz_response_id');
+            $table->foreignId('quiz_response_id')->index();
             $table->string('role', 255);
             $table->text('message');
             $table->timestamp('created_at')->useCurrent();
