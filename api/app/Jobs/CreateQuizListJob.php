@@ -16,7 +16,10 @@ use Illuminate\Queue\SerializesModels;
 
 class CreateQuizListJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private int $quizCategoryId;
     private int $userId;
