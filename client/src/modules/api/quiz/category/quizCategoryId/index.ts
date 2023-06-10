@@ -20,9 +20,7 @@ export const apiQuizCategory = (
       apiClient().sanctum.csrf_cookie.$get();
       return apiClient()
         .api.quiz.categoryList._quizCategoryId(quizCategoryId)
-        .$get({
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        .$get();
     }
   );
 
