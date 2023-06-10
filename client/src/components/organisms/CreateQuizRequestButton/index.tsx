@@ -8,13 +8,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { apiCreateQuizList } from "@/modules/api/quiz";
+import axios, { AxiosError } from "axios";
+import { useState } from "react";
+import { ErrorResponse, errorDictToString } from "@/types/response";
+import { ERROR_MESSAGE } from "@/constants/api";
 
 export const CreateQuizRequestButton = () => {
   const router = useRouter();
   const [user, setUser, isReady] = useAuth();
   const { quizCategoryId } = router.query;
+  const [createQuizListResError, setCreateQuizListResError] =
+    useState<string>();
   const { data, error, isLoading, status, mutate, retryCount, initRetryCount } =
     apiQuizCategory(Number(quizCategoryId), user?.token);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   if (!isReady || isLoading) {
     <></>;
@@ -43,11 +50,34 @@ export const CreateQuizRequestButton = () => {
   }
 
   const handleClickButton = async () => {
-    await apiCreateQuizList(data.data.quizCategoryId, user?.token!);
+    try {
+      await apiCreateQuizList(data.data.quizCategoryId, user?.token!);
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        const response = e.response!.data as ErrorResponse;
+        const status = e.response!.status;
+
+        if (status === 400) {
+          setCreateQuizListResError(errorDictToString(response.data));
+          return;
+        }
+
+        setCreateQuizListResError(response.message);
+        return;
+      }
+
+      setCreateQuizListResError(ERROR_MESSAGE.UNKNOWN_ERROR);
+      return;
+    }
+    setIsDisabled(true);
   };
 
+  if (createQuizListResError) {
+    return <Alert designType="error">{createQuizListResError}</Alert>;
+  }
+
   return (
-    <BorderRedButton onClick={handleClickButton}>
+    <BorderRedButton disabled={isDisabled} onClick={handleClickButton}>
       <div className={styles.button}>
         <FontAwesomeIcon icon={faPlus} />
         {`${data.data.name}に関する問題の作成をリクエスト`}
