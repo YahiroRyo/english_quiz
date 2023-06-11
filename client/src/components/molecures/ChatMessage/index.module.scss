@@ -1,6 +1,12 @@
+@use "@/styles/modules/screen.scss" as *;
+
 .chat {
   display: grid;
   column-gap: 1rem;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 60px 1fr;
   white-space: pre-wrap;
+
+  @include mq("md") {
+    grid-template-columns: 60px 1fr;
+  }
 }

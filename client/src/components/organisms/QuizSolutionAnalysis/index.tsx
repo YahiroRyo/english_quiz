@@ -182,7 +182,7 @@ export const QuizSolutionAnalysis = () => {
               }
               type="submit"
             >
-              <FontAwesomeIcon size="2x" icon={faPaperPlane} />
+              <FontAwesomeIcon icon={faPaperPlane} />
             </GreenButton>
           </div>
         </form>
@@ -250,7 +250,7 @@ export const QuizSolutionAnalysis = () => {
               }
               type="submit"
             >
-              <FontAwesomeIcon size="2x" icon={faPaperPlane} />
+              <FontAwesomeIcon icon={faPaperPlane} />
             </GreenButton>
           </div>
         </form>

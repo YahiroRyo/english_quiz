@@ -1,4 +1,5 @@
 @use "@/styles/color.scss" as *;
+@use "@/styles/modules/screen.scss" as *;
 
 .header {
   align-items: center;
@@ -20,4 +21,14 @@
   align-items: center;
   justify-content: center;
   column-gap: 0.5rem;
+}
+
+.toggleMenuButton {
+  border: 0;
+  background-color: transparent;
+  display: none;
+
+  @include mq("md") {
+    display: block;
+  }
 }
