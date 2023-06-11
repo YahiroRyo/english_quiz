@@ -223,44 +223,48 @@ export const QuizSolutionAnalysis = () => {
           </div>
         </LergeDarkBoldText>
 
-        <form
-          onSubmit={answerForm.handleSubmit(handleAnswer)}
-          className={styles.answerForm}
-        >
+        <div className={styles.answerFormWrapper}>
           <AnswerIcon />
-          <InputMediumGrayTextArea
-            name="message"
-            placeholder="英文を入力してください。"
-            register={answerForm.register}
-            validation={{
-              required: "答えは必須項目です",
-              maxLength: {
-                value: 2048,
-                message: "有効な答えを入力してください。",
-              },
-            }}
-            disabled={dontNeedsAnswer() || isSending}
+          <form
+            onSubmit={answerForm.handleSubmit(handleAnswer)}
+            className={styles.answerForm}
           >
-            {data?.data.response?.response}
-          </InputMediumGrayTextArea>
-          <div className={styles.answerFormSubmitButton}>
-            <GreenButton
-              disabled={
-                !answerForm.formState.isValid || isSending || dontNeedsAnswer()
-              }
-              type="submit"
+            <InputMediumGrayTextArea
+              name="message"
+              placeholder="英文を入力してください。"
+              register={answerForm.register}
+              validation={{
+                required: "答えは必須項目です",
+                maxLength: {
+                  value: 2048,
+                  message: "有効な答えを入力してください。",
+                },
+              }}
+              disabled={dontNeedsAnswer() || isSending}
             >
-              <FontAwesomeIcon icon={faPaperPlane} />
-            </GreenButton>
-          </div>
-        </form>
-        {answerForm.formState.errors.message ? (
-          <ValidationError
-            error={answerForm.formState.errors.message.message}
-          />
-        ) : (
-          <></>
-        )}
+              {data?.data.response?.response}
+            </InputMediumGrayTextArea>
+            <div className={styles.answerFormSubmitButton}>
+              <GreenButton
+                disabled={
+                  !answerForm.formState.isValid ||
+                  isSending ||
+                  dontNeedsAnswer()
+                }
+                type="submit"
+              >
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </GreenButton>
+            </div>
+            {answerForm.formState.errors.message ? (
+              <ValidationError
+                error={answerForm.formState.errors.message.message}
+              />
+            ) : (
+              <></>
+            )}
+          </form>
+        </div>
       </div>
 
       <MessageList />
