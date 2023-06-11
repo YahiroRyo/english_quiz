@@ -13,7 +13,6 @@ use Eng\Quiz\Domain\Entity\QuizConstants;
 use Eng\Quiz\Infrastructure\Eloquent\Quiz;
 use Eng\Quiz\Infrastructure\Eloquent\QuizResponse;
 use Eng\Quiz\Infrastructure\Eloquent\QuizResponseReply;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\QuizRepository
