@@ -140,11 +140,11 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
 
     public function findAllBySearchQuizListDTO(SearchQuizListDTO $searchQuizListDTO): SearchResultQuizListDTO
     {
-        $quizListCountLimit = 40;
+        $quizListCountLimit = 10;
         $quizListCurrentOffset = $quizListCountLimit * ($searchQuizListDTO->getCurrentPageCount() - 1);
 
-        /** @var Collection */
-        $quizCollection = Quiz::with(['quizCategory', 'quizResponse.quizResponseReplies'])
+        /** @var QuizDTO[] */
+        $quizList = Quiz::with(['quizCategory', 'quizResponse.quizResponseReplies'])
             ->where('user_id', $searchQuizListDTO->getUserId())
             ->where('quiz_category_id', $searchQuizListDTO->getQuizCategoryId())
             ->orderBy('created_at', 'desc')
@@ -201,12 +201,17 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                         [],
                     ),
                 );
-            });
+            })
+            ->toArray();
 
-        $maxPageCount = $quizCollection->count() === $quizListCountLimit ? $quizCollection->count() : $searchQuizListDTO->getCurrentPageCount();
+        $maxQuizListCount = Quiz::with(['quizCategory', 'quizResponse.quizResponseReplies'])
+            ->where('user_id', $searchQuizListDTO->getUserId())
+            ->where('quiz_category_id', $searchQuizListDTO->getQuizCategoryId())
+            ->count();
+        $maxPageCount = $maxQuizListCount / $quizListCountLimit;
 
         return SearchResultQuizListDTO::from(
-            $quizCollection->toArray(),
+            $quizList,
             $searchQuizListDTO->getCurrentPageCount(),
             $maxPageCount,
         );

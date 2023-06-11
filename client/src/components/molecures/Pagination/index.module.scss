@@ -1,0 +1,39 @@
+@use "@/styles/color.scss" as *;
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  column-gap: 1rem;
+}
+.paginationButton {
+  background-color: colors(darkWhite);
+  border: 1px solid rgba(colors(lightDark), 0.75);
+  border-radius: 4px;
+  color: rgba(colors(lightDark), 0.75);
+  font-weight: bold;
+  font-size: 1.5rem;
+  width: 4rem;
+  height: 4rem;
+  transition: 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid colors(lightDark);
+    color: colors(lightDark);
+  }
+}
+
+.paginationButtonSelected {
+  @extend .paginationButton;
+
+  background-color: colors(green);
+  border: 0;
+  color: colors(white);
+
+  &:hover {
+    cursor: pointer;
+    border: 0;
+    background-color: colors(green);
+    color: colors(white);
+  }
+}

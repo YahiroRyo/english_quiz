@@ -7,16 +7,21 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "./index.module.scss";
 import { QuizCard } from "@/components/molecures/QuizCard";
+import { Pagination } from "@/components/molecures/Pagination";
 
 export const QuizList = () => {
-  const [user, setUser, isReady] = useAuth();
   const router = useRouter();
   const safePush = useSafePush();
+  const [user, setUser, isReady] = useAuth();
   const { quizCategoryId } = router.query;
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageCount, setCurrentPageCount] = useState(1);
+
+  const onRefreshCurrentPageCount = (refreshedCurrentPageCount: number) => {
+    setCurrentPageCount(refreshedCurrentPageCount);
+  };
 
   const { data, error, isLoading, status, mutate, retryCount, initRetryCount } =
-    apiQuizList(Number(quizCategoryId), currentPage, user?.token!);
+    apiQuizList(Number(quizCategoryId), currentPageCount, user?.token!);
 
   if (!isReady) {
     return <></>;
@@ -59,6 +64,11 @@ export const QuizList = () => {
           isCorrect={quiz.response?.isCorrect}
         />
       ))}
+      <Pagination
+        maxPageCount={data.data.maxPageCount}
+        currentPageCount={currentPageCount}
+        onRefreshCurrentPageCount={onRefreshCurrentPageCount}
+      />
     </div>
   );
 };
