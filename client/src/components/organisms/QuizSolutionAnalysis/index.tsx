@@ -268,7 +268,49 @@ export const QuizSolutionAnalysis = () => {
       </div>
 
       <MessageList />
-      <QuestionForm />
+
+      {needsAnswer() ? (
+        <></>
+      ) : (
+        <>
+          <form
+            onSubmit={chatForm.handleSubmit(handleAnswer)}
+            className={styles.chatForm}
+          >
+            <InputMediumGrayTextArea
+              name="message"
+              placeholder="質問を入力してください。"
+              register={chatForm.register}
+              validation={{
+                required: "答えは必須項目です",
+                maxLength: {
+                  value: 2048,
+                  message: "有効な答えを入力してください。",
+                },
+              }}
+              disabled={needsAnswer() || isSending}
+            />
+            <div className={styles.chatFormSubmitButton}>
+              <GreenButton
+                disabled={
+                  !chatForm.formState.isValid || isSending || needsAnswer()
+                }
+                type="submit"
+              >
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </GreenButton>
+            </div>
+          </form>
+
+          {chatForm.formState.errors.message ? (
+            <ValidationError
+              error={chatForm.formState.errors.message.message}
+            />
+          ) : (
+            <></>
+          )}
+        </>
+      )}
     </div>
   );
 };
