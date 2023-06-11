@@ -22,6 +22,20 @@
   column-gap: 1rem;
 }
 
+.correctAnswer {
+  align-items: center;
+  box-shadow: 0 8px 0.5rem rgba(colors(darkOrange), 0.25);
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: colors(lightWhite);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 5rem;
+  width: 100%;
+  z-index: 5;
+  white-space: pre-wrap;
+}
+
 .chatForm,
 .answerForm {
   display: flex;
