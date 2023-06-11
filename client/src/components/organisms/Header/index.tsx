@@ -6,13 +6,23 @@ import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/user/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBars,
   faBook,
   faRightFromBracket,
   faRightToBracket,
   faUserPlus,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const Header = () => {
+type Props = {
+  isOpeningMenu: boolean;
+  handleClickToggleMenuButton: () => void;
+};
+
+export const Header = ({
+  isOpeningMenu,
+  handleClickToggleMenuButton,
+}: Props) => {
   const router = useRouter();
   const [user] = useAuth();
 
@@ -61,6 +71,12 @@ export const Header = () => {
   if (user) {
     return (
       <header className={styles.header}>
+        <button
+          onClick={handleClickToggleMenuButton}
+          className={styles.toggleMenuButton}
+        >
+          <FontAwesomeIcon icon={isOpeningMenu ? faXmark : faBars} />
+        </button>
         <NavigationBar
           currentPathname={router.pathname}
           navigationElementList={loggedInNavigationElementList}

@@ -10,7 +10,7 @@ type Props = {
 export const ChatMessage = ({ icon, message }: Props) => {
   return (
     <div className={styles.chat}>
-      <UserIcon width={80} height={80} icon={icon} />
+      <UserIcon width={60} height={60} icon={icon} />
       <MediumDarkBoldText>{message}</MediumDarkBoldText>
     </div>
   );

@@ -1,4 +1,5 @@
 @use "@/styles/color.scss" as *;
+@use "@/styles/modules/screen.scss" as *;
 
 .quiz,
 .quizSolutionAnalysis {
@@ -8,12 +9,19 @@
 }
 
 .quizSolutionAnalysis {
-  margin-right: 2rem;
   position: relative;
+
+  @include mq("md") {
+    margin-right: 0.5rem;
+  }
 }
 
 .quiz {
   padding: 0 2rem;
+
+  @include mq("md") {
+    padding: 0 1rem;
+  }
 }
 
 .question {
@@ -32,7 +40,7 @@
   position: sticky;
   top: 5rem;
   width: 100%;
-  z-index: 5;
+  z-index: 1;
   white-space: pre-wrap;
 }
 
