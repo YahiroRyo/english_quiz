@@ -9,9 +9,6 @@ html {
   @include mq("md") {
     font-size: 12px;
   }
-  @include mq("sm") {
-    font-size: 10px;
-  }
 }
 
 body,
