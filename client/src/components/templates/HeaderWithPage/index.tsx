@@ -1,6 +1,7 @@
 import { Header } from "@/components/organisms/Header";
 import Head from "next/head";
 import styles from "./index.module.scss";
+import { useState } from "react";
 
 type Props = {
   children?: React.ReactNode;
