@@ -1,6 +1,13 @@
+@use "@/styles/modules/screen.scss" as *;
+
 .form {
   display: grid;
-  grid-template-columns: 25rem 1fr;
+
+  @include mq("md") {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+  }
 }
 .formWrapper {
   display: flex;

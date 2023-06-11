@@ -3,6 +3,7 @@ import { QuizCategoryList } from "@/components/organisms/QuizCategoryList";
 import { QuizCategory } from "@/types/quiz";
 import Head from "next/head";
 import styles from "./index.module.scss";
+import { useState } from "react";
 
 type Props = {
   children?: React.ReactNode;
@@ -17,6 +18,8 @@ export const HeaderAndQuizCategoryListWithPage = ({
   description,
   quizCategoryList,
 }: Props) => {
+  const [isOpeningMenu, setIsOpeningMenu] = useState(false);
+
   return (
     <>
       <Head>
@@ -24,9 +27,19 @@ export const HeaderAndQuizCategoryListWithPage = ({
         <meta name="description" content={description} />
       </Head>
 
-      <Header />
+      <Header
+        isOpeningMenu={isOpeningMenu}
+        handleClickToggleMenuButton={() => setIsOpeningMenu(!isOpeningMenu)}
+      />
       <main className={styles.main}>
-        <QuizCategoryList quizCategoryList={quizCategoryList} />
+        <div
+          className={`${styles.menu} ${
+            isOpeningMenu ? styles.menuOpening : ""
+          }`}
+          onClick={() => setIsOpeningMenu(!isOpeningMenu)}
+        >
+          <QuizCategoryList quizCategoryList={quizCategoryList} />
+        </div>
         <div className={styles.mainContents}>{children}</div>
       </main>
     </>

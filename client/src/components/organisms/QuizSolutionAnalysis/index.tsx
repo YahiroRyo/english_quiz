@@ -8,7 +8,6 @@ import { Alert } from "@/components/molecures/Alert";
 import { useSafePush } from "@/hooks/route/useSafePush";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { QuestionIcon } from "@/components/atoms/Icon/QuestionIcon";
-import { MediumDarkBoldText } from "@/components/atoms/Text/MediumDarkBoldText";
 import { AnswerIcon } from "@/components/atoms/Icon/AnswerIcon";
 import { InputMediumGrayTextArea } from "@/components/atoms/Input/InputMediumGrayTextArea";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,6 +20,10 @@ import axios from "axios";
 import { ErrorResponse, errorDictToString } from "@/types/response";
 import { useState } from "react";
 import { ERROR_MESSAGE } from "@/constants/api";
+import { useScroll } from "@/hooks/scroll/useScroll";
+import { MediumBlackBoldText } from "@/components/atoms/Text/MediumBlackBoldText";
+import { SmallBlackBoldText } from "@/components/atoms/Text/SmallBlackBoldText";
+import { MediumDarkBoldText } from "@/components/atoms/Text/MediumDarkBoldText";
 
 export const QuizSolutionAnalysis = () => {
   const router = useRouter();
@@ -29,6 +32,7 @@ export const QuizSolutionAnalysis = () => {
   const { quizId } = router.query;
   const [error, setError] = useState<string>();
   const [isSending, setIsSending] = useState(false);
+  const { toMostUnderPage } = useScroll();
 
   const {
     data,
@@ -46,14 +50,18 @@ export const QuizSolutionAnalysis = () => {
   const handleAnswer: SubmitHandler<PostRequest> = async (request) => {
     try {
       setIsSending(true);
-      const response = await apiAddMessage(
-        Number(quizId),
-        request.message,
-        user?.token!
-      );
-      await mutate(response);
+      await apiAddMessage(Number(quizId), request.message, user?.token!);
+      await mutate();
       setIsSending(false);
       chatForm.reset();
+
+      if (
+        data &&
+        data.data.response &&
+        data.data.response.replyList.length >= 1
+      ) {
+        toMostUnderPage();
+      }
     } catch (e) {
       if (axios.isAxiosError(e)) {
         const response = e.response!.data as ErrorResponse;
@@ -111,8 +119,100 @@ export const QuizSolutionAnalysis = () => {
     return !needsAnswer();
   };
 
+  const MessageList = () => {
+    if (needsAnswer()) {
+      return <></>;
+    }
+
+    return (
+      <div className={styles.messageList}>
+        {data.data.response?.replyList.map((reply) => {
+          if (reply.role === "assistant") {
+            return (
+              <div
+                key={reply.quizResponseReplyId}
+                className={styles.messageOfBot}
+              >
+                <ChatMessage
+                  message={reply.message}
+                  icon={"/images/robot.png"}
+                />
+              </div>
+            );
+          }
+
+          return (
+            <div key={reply.quizResponseReplyId} className={styles.messageOfMe}>
+              <ChatMessage message={reply.message} icon={user?.icon!} />
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const QuestionForm = () => {
+    if (needsAnswer()) {
+      return <></>;
+    }
+
+    return (
+      <>
+        <form
+          onSubmit={chatForm.handleSubmit(handleAnswer)}
+          className={styles.chatForm}
+        >
+          <InputMediumGrayTextArea
+            name="message"
+            placeholder="質問を入力してください。"
+            register={chatForm.register}
+            validation={{
+              required: "答えは必須項目です",
+              maxLength: {
+                value: 2048,
+                message: "有効な答えを入力してください。",
+              },
+            }}
+            disabled={needsAnswer() || isSending}
+          />
+          <div className={styles.chatFormSubmitButton}>
+            <GreenButton
+              disabled={
+                !chatForm.formState.isValid || isSending || needsAnswer()
+              }
+              type="submit"
+            >
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </GreenButton>
+          </div>
+        </form>
+
+        {chatForm.formState.errors.message ? (
+          <ValidationError error={chatForm.formState.errors.message.message} />
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  };
+
+  const CorrectAnswer = () => {
+    if (needsAnswer()) {
+      return <></>;
+    }
+
+    return (
+      <div className={styles.correctAnswer}>
+        <SmallBlackBoldText>答え</SmallBlackBoldText>
+        <MediumDarkBoldText>{data.data.answer}</MediumDarkBoldText>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.quizSolutionAnalysis}>
+      <CorrectAnswer />
+
       <Alert designType="error">{error}</Alert>
 
       <div className={styles.quiz}>
@@ -150,7 +250,7 @@ export const QuizSolutionAnalysis = () => {
               }
               type="submit"
             >
-              <FontAwesomeIcon size="2x" icon={faPaperPlane} />
+              <FontAwesomeIcon icon={faPaperPlane} />
             </GreenButton>
           </div>
         </form>
@@ -163,78 +263,8 @@ export const QuizSolutionAnalysis = () => {
         )}
       </div>
 
-      <div className={styles.messageList}>
-        {dontNeedsAnswer() ? (
-          data.data.response?.replyList.map((reply) => {
-            if (reply.role === "assistant") {
-              return (
-                <div
-                  key={reply.quizResponseReplyId}
-                  className={styles.messageOfBot}
-                >
-                  <ChatMessage
-                    message={reply.message}
-                    icon={"/images/robot.png"}
-                  />
-                </div>
-              );
-            }
-
-            return (
-              <div
-                key={reply.quizResponseReplyId}
-                className={styles.messageOfMe}
-              >
-                <ChatMessage message={reply.message} icon={user?.icon!} />
-              </div>
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </div>
-
-      {dontNeedsAnswer() ? (
-        <>
-          <form
-            onSubmit={chatForm.handleSubmit(handleAnswer)}
-            className={styles.chatForm}
-          >
-            <InputMediumGrayTextArea
-              name="message"
-              placeholder="質問を入力してください。"
-              register={chatForm.register}
-              validation={{
-                required: "答えは必須項目です",
-                maxLength: {
-                  value: 2048,
-                  message: "有効な答えを入力してください。",
-                },
-              }}
-              disabled={needsAnswer() || isSending}
-            />
-            <div className={styles.chatFormSubmitButton}>
-              <GreenButton
-                disabled={
-                  !chatForm.formState.isValid || isSending || needsAnswer()
-                }
-                type="submit"
-              >
-                <FontAwesomeIcon size="2x" icon={faPaperPlane} />
-              </GreenButton>
-            </div>
-          </form>
-          {chatForm.formState.errors.message ? (
-            <ValidationError
-              error={chatForm.formState.errors.message.message}
-            />
-          ) : (
-            <></>
-          )}
-        </>
-      ) : (
-        <></>
-      )}
+      <MessageList />
+      <QuestionForm />
     </div>
   );
 };
