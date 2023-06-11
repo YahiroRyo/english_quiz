@@ -9,6 +9,8 @@ type Props = {
 };
 
 export const HeaderWithPage = ({ children, title, description }: Props) => {
+  const [isOpeningMenu, setIsOpeningMenu] = useState(false);
+
   return (
     <>
       <Head>
@@ -16,7 +18,10 @@ export const HeaderWithPage = ({ children, title, description }: Props) => {
         <meta name="description" content={description} />
       </Head>
 
-      <Header />
+      <Header
+        isOpeningMenu={isOpeningMenu}
+        handleClickToggleMenuButton={() => setIsOpeningMenu(!isOpeningMenu)}
+      />
       <main className={styles.main}>{children}</main>
     </>
   );
