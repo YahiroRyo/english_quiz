@@ -57,7 +57,9 @@ jobs:
     - name: copy .crt
       run: aws s3 cp s3://yappi-english-quiz/secret/ca-certificates.crt "./"
     - name: config cache delete
-      run: php artisan config:clear
+      run: |
+      php artisan cache:clear
+      php artisan config:clear
     - name: install sls
       run: npm i -g serverless
     - name: deploy
