@@ -28,17 +28,19 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
         foreach ($quizDTOList as $quizDTO) {
             /** @var Quiz */
             $quiz = Quiz::create([
-                'user_id'          => $quizDTO->getCreator(),
-                'quiz_category_id' => $quizDTO->getQuizCategoryDTO()->getQuizCategoryId(),
-                'prompt'           => $quizDTO->getPrompt(),
-                'question'         => $quizDTO->getQuestion(),
-                'answer'           => $quizDTO->getAnswer(),
+                'user_id'           => $quizDTO->getCreator(),
+                'quiz_category_id'  => $quizDTO->getQuizCategoryDTO()->getQuizCategoryId(),
+                'prompt'            => $quizDTO->getPrompt(),
+                'question'          => $quizDTO->getQuestion(),
+                'answer'            => $quizDTO->getAnswer(),
+                'speech_answer_url' => $quizDTO->getSpeechAnswerUrl(),
             ]);
             $result[] = QuizDTO::from(
                 $quiz->getQuizId(),
                 $quiz->getUserId(),
                 $quiz->getQuestion(),
                 $quiz->getAnswer(),
+                $quiz->getSpeechAnswerUrl(),
                 $quiz->getPrompt(),
                 $quizDTO->getQuizCategoryDTO(),
                 QuizResponseDTO::from(
@@ -60,9 +62,10 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
             $quiz = Quiz::findOrFail($quizDTO->getQuizId());
 
             $quiz->update([
-                'question' => $quizDTO->getQuestion(),
-                'answer'   => $quizDTO->getAnswer(),
-                'prompt'   => $quizDTO->getPrompt(),
+                'question'          => $quizDTO->getQuestion(),
+                'answer'            => $quizDTO->getAnswer(),
+                'speech_answer_url' => $quizDTO->getSpeechAnswerUrl(),
+                'prompt'            => $quizDTO->getPrompt(),
             ]);
             /** @var ?QuizResponse */
             $quizResponse = QuizResponse::where('quiz_id', $quizDTO->getQuizId())->first();
@@ -125,6 +128,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                 $quizDTO->getCreator(),
                 $quizDTO->getQuestion(),
                 $quizDTO->getAnswer(),
+                $quizDTO->getSpeechAnswerUrl(),
                 $quizDTO->getPrompt(),
                 $quizDTO->getQuizCategoryDTO(),
                 QuizResponseDTO::from(
@@ -157,6 +161,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                         $quiz->getUserId(),
                         $quiz->getQuestion(),
                         $quiz->getAnswer(),
+                        $quiz->getSpeechAnswerUrl(),
                         $quiz->getPrompt(),
                         QuizCategoryDTO::from(
                             $quiz->getQuizCategory()->getQuizCategoryId(),
@@ -187,6 +192,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                     $quiz->getUserId(),
                     $quiz->getQuestion(),
                     $quiz->getAnswer(),
+                    $quiz->getSpeechAnswerUrl(),
                     $quiz->getPrompt(),
                     QuizCategoryDTO::from(
                         $quiz->getQuizCategory()->getQuizCategoryId(),
@@ -229,6 +235,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                 $quiz->getUserId(),
                 $quiz->getQuestion(),
                 $quiz->getAnswer(),
+                $quiz->getSpeechAnswerUrl(),
                 $quiz->getPrompt(),
                 QuizCategoryDTO::from(
                     $quiz->getQuizCategory()->getQuizCategoryId(),
@@ -260,6 +267,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
             $quiz->getUserId(),
             $quiz->getQuestion(),
             $quiz->getAnswer(),
+            $quiz->getSpeechAnswerUrl(),
             $quiz->getPrompt(),
             QuizCategoryDTO::from(
                 $quiz->getQuizCategory()->getQuizCategoryId(),

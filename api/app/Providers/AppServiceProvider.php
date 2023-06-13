@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Aws\Polly\PollyClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Illuminate\Support\ServiceProvider;
@@ -15,6 +16,19 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(ClientInterface::class, function () {
             return new Client();
+        });
+
+        $this->app->bind(PollyClient::class, function () {
+            $config = [
+                'version' => 'latest',
+                'region' => 'ap-northeast-1',
+                'credentials' => [
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY')
+                ]
+            ];
+
+            return new PollyClient($config);
         });
     }
 

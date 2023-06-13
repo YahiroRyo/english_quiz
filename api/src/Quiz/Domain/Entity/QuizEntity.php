@@ -9,6 +9,7 @@ class QuizEntity
     private int $quizId;
     private string $question;
     private string $answer;
+    private string $speechAnswerUrl;
     private QuizCategoryEntity $quizCategoryEntity;
     private QuizResponseEntity $quizResponseEntity;
 
@@ -16,12 +17,14 @@ class QuizEntity
         int $quizId,
         string $question,
         string $answer,
+        string $speechAnswerUrl,
         QuizCategoryEntity $quizCategoryEntity,
         QuizResponseEntity $quizResponseEntity
     ) {
         $this->quizId = $quizId;
         $this->question = $question;
         $this->answer = $answer;
+        $this->speechAnswerUrl = $speechAnswerUrl;
         $this->quizCategoryEntity = $quizCategoryEntity;
         $this->quizResponseEntity = $quizResponseEntity;
     }
@@ -41,6 +44,11 @@ class QuizEntity
         return $this->answer;
     }
 
+    public function getSpeechAnswerUrl(): string
+    {
+        return $this->speechAnswerUrl;
+    }
+
     public function getQuizCategoryEntity(): QuizCategoryEntity
     {
         return $this->quizCategoryEntity;
@@ -53,12 +61,24 @@ class QuizEntity
 
     public function toJson(): array
     {
+        if ($this->getSpeechAnswerUrl() === QuizConstants::DEFAULT_QUIZ_SPEECH_ANSWER_URL) {
+            return [
+                'quizId'          => $this->getQuizId(),
+                'question'        => $this->getQuestion(),
+                'answer'          => $this->getAnswer(),
+                'speechAnswerUrl' => null,
+                'category'        => $this->getQuizCategoryEntity()->toJson(),
+                'response'        => $this->getQuizResponseEntity()->toJson(),
+            ];
+        }
+
         return [
-            'quizId'   => $this->getQuizId(),
-            'question' => $this->getQuestion(),
-            'answer'   => $this->getAnswer(),
-            'category' => $this->getQuizCategoryEntity()->toJson(),
-            'response' => $this->getQuizResponseEntity()->toJson(),
+            'quizId'          => $this->getQuizId(),
+            'question'        => $this->getQuestion(),
+            'answer'          => $this->getAnswer(),
+            'speechAnswerUrl' => $this->getSpeechAnswerUrl(),
+            'category'        => $this->getQuizCategoryEntity()->toJson(),
+            'response'        => $this->getQuizResponseEntity()->toJson(),
         ];
     }
 
@@ -66,6 +86,7 @@ class QuizEntity
         int $quizId,
         string $question,
         string $answer,
+        string $speechAnswerUrl,
         QuizCategoryEntity $quizCategoryEntity,
         QuizResponseEntity $quizResponseEntity
     ): self {
@@ -73,6 +94,7 @@ class QuizEntity
             $quizId,
             $question,
             $answer,
+            $speechAnswerUrl,
             $quizCategoryEntity,
             $quizResponseEntity,
         );
@@ -84,6 +106,7 @@ class QuizEntity
             $quizDTO->getQuizId(),
             $quizDTO->getQuestion(),
             $quizDTO->getAnswer(),
+            $quizDTO->getSpeechAnswerUrl(),
             QuizCategoryEntity::fromDTO($quizDTO->getQuizCategoryDTO()),
             QuizResponseEntity::fromDTO($quizDTO->getQuizResponseDTO()),
         );

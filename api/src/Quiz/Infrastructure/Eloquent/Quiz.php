@@ -19,6 +19,7 @@ class Quiz extends Model
         'prompt',
         'question',
         'answer',
+        'speech_answer_url'
     ];
 
     public function quizCategory(): HasOne
@@ -69,5 +70,10 @@ class Quiz extends Model
     public function getAnswer(): string
     {
         return $this->answer;
+    }
+
+    public function getSpeechAnswerUrl(): string
+    {
+        return $this->speech_answer_url;
     }
 }
