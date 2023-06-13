@@ -30,8 +30,10 @@
   column-gap: 1rem;
 }
 
-.correctAnswer {
-  align-items: center;
+.correctAnswerWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
   box-shadow: 0 8px 0.5rem rgba(colors(darkOrange), 0.25);
   border-radius: 8px;
   box-sizing: border-box;
@@ -42,6 +44,16 @@
   width: 100%;
   z-index: 1;
   white-space: pre-wrap;
+}
+
+.correctAnswer {
+  display: flex;
+  align-items: center;
+}
+
+.speakCorrectAnswerButton {
+  border: 0;
+  background-color: transparent;
 }
 
 .answerFormWrapper {

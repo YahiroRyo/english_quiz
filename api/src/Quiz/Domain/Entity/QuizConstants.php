@@ -5,6 +5,7 @@ namespace Eng\Quiz\Domain\Entity;
 class QuizConstants
 {
     public const DEFAULT_QUIZ_ID                   = 0;
+    public const DEFAULT_QUIZ_SPEECH_ANSWER_URL    = '__NOT_EXISTS__';
     public const DEFAULT_QUIZ_RESPONSE_ID          = 0;
     public const DEFAULT_QUIZ_RESPONSE_REPLY_ID    = 0;
     public const UNRESPONSIVE                      = '__UNRESPONSIVE__';

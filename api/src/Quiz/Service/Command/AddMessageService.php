@@ -61,6 +61,7 @@ class AddMessageService
                 $quizDTO->getCreator(),
                 $quizDTO->getQuestion(),
                 $quizDTO->getAnswer(),
+                $quizDTO->getSpeechAnswerUrl(),
                 $quizDTO->getPrompt(),
                 $quizDTO->getQuizCategoryDTO(),
                 QuizResponseDTO::from(
@@ -121,6 +122,7 @@ class AddMessageService
             $quizDTO->getCreator(),
             $quizDTO->getQuestion(),
             $quizDTO->getAnswer(),
+            $quizDTO->getSpeechAnswerUrl(),
             $quizDTO->getPrompt(),
             $quizDTO->getQuizCategoryDTO(),
             QuizResponseDTO::from(

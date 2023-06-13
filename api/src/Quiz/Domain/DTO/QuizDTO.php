@@ -8,6 +8,7 @@ class QuizDTO
     private int $creator;
     private string $question;
     private string $answer;
+    private string $speechAnswerUrl;
     private string $prompt;
     private QuizCategoryDTO $quizCategoryDTO;
     private QuizResponseDTO $quizResponseDTO;
@@ -17,6 +18,7 @@ class QuizDTO
         int $creator,
         string $question,
         string $answer,
+        string $speechAnswerUrl,
         string $prompt,
         QuizCategoryDTO $quizCategoryDTO,
         QuizResponseDTO $quizResponseDTO
@@ -25,6 +27,7 @@ class QuizDTO
         $this->creator = $creator;
         $this->question = $question;
         $this->answer = $answer;
+        $this->speechAnswerUrl = $speechAnswerUrl;
         $this->prompt = $prompt;
         $this->quizCategoryDTO = $quizCategoryDTO;
         $this->quizResponseDTO = $quizResponseDTO;
@@ -50,6 +53,11 @@ class QuizDTO
         return $this->answer;
     }
 
+    public function getSpeechAnswerUrl(): string
+    {
+        return $this->speechAnswerUrl;
+    }
+
     public function getPrompt(): string
     {
         return $this->prompt;
@@ -70,6 +78,7 @@ class QuizDTO
         int $creator,
         string $question,
         string $answer,
+        string $speechAnswerUrl,
         string $prompt,
         QuizCategoryDTO $quizCategoryDTO,
         QuizResponseDTO $quizResponseDTO
@@ -79,6 +88,7 @@ class QuizDTO
             $creator,
             $question,
             $answer,
+            $speechAnswerUrl,
             $prompt,
             $quizCategoryDTO,
             $quizResponseDTO,

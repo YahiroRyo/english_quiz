@@ -2,7 +2,10 @@
 
 namespace App\Jobs;
 
+use Aws\Polly\PollyClient;
+use Eng\Aws\Infrastructure\Repository\PollyRepository;
 use Eng\Chatgpt\Infrastructure\Repository\ChatgptRepository;
+use Eng\Quiz\Infrastructure\Eloquent\CreatingQuiz;
 use Eng\Quiz\Infrastructure\Repository\CreatableQuizStatusRepository;
 use Eng\Quiz\Infrastructure\Repository\QuizCategoryRepository;
 use Eng\Quiz\Infrastructure\Repository\QuizRepository;
@@ -13,6 +16,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 
 class CreateQuizListJob implements ShouldQueue
 {
@@ -37,7 +41,21 @@ class CreateQuizListJob implements ShouldQueue
             new QuizCategoryRepository(),
             new CreatableQuizStatusRepository(),
             new ChatgptRepository(new Client()),
+            new PollyRepository(new PollyClient([
+                'version' => 'latest',
+                'region' => 'ap-northeast-1',
+                'credentials' => [
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY')
+                ]
+            ])),
         );
+
         $createQuizService->execute($this->quizCategoryId, $this->userId);
+    }
+
+    public function failed(Throwable $exception)
+    {
+        CreatingQuiz::where($this->userId)->delete();
     }
 }

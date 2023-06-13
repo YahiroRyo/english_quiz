@@ -12,16 +12,19 @@ import { AnswerIcon } from "@/components/atoms/Icon/AnswerIcon";
 import { InputMediumGrayTextArea } from "@/components/atoms/Input/InputMediumGrayTextArea";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { GreenButton } from "@/components/atoms/Button/GreenButton";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPaperPlane,
+  faPause,
+  faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 import { ChatMessage } from "@/components/molecures/ChatMessage";
 import { ValidationError } from "@/components/molecures/ValidationError";
 import { PostRequest } from "@/api/api/quiz/_quizId@number/add";
 import axios from "axios";
 import { ErrorResponse, errorDictToString } from "@/types/response";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ERROR_MESSAGE } from "@/constants/api";
 import { useScroll } from "@/hooks/scroll/useScroll";
-import { MediumBlackBoldText } from "@/components/atoms/Text/MediumBlackBoldText";
 import { SmallBlackBoldText } from "@/components/atoms/Text/SmallBlackBoldText";
 import { MediumDarkBoldText } from "@/components/atoms/Text/MediumDarkBoldText";
 
@@ -43,6 +46,15 @@ export const QuizSolutionAnalysis = () => {
     retryCount,
     initRetryCount,
   } = apiQuiz(Number(quizId), user?.token!);
+
+  const [audioConfig, setAudioConfig] = useState({
+    speechAnswerUrl: data?.data.speechAnswerUrl,
+    audio:
+      typeof Audio !== "undefined"
+        ? new Audio(data?.data.speechAnswerUrl)
+        : undefined,
+    isPlaying: false,
+  });
 
   const answerForm = useForm<PostRequest>();
   const chatForm = useForm<PostRequest>();
@@ -80,6 +92,17 @@ export const QuizSolutionAnalysis = () => {
       return;
     }
   };
+
+  useEffect(() => {
+    setAudioConfig({
+      speechAnswerUrl: data?.data.speechAnswerUrl,
+      audio:
+        typeof Audio !== "undefined"
+          ? new Audio(data?.data.speechAnswerUrl)
+          : undefined,
+      isPlaying: false,
+    });
+  }, [data]);
 
   if (!isReady) {
     return <></>;
@@ -151,60 +174,50 @@ export const QuizSolutionAnalysis = () => {
     );
   };
 
-  const QuestionForm = () => {
-    if (needsAnswer()) {
-      return <></>;
-    }
-
-    return (
-      <>
-        <form
-          onSubmit={chatForm.handleSubmit(handleAnswer)}
-          className={styles.chatForm}
-        >
-          <InputMediumGrayTextArea
-            name="message"
-            placeholder="質問を入力してください。"
-            register={chatForm.register}
-            validation={{
-              required: "答えは必須項目です",
-              maxLength: {
-                value: 2048,
-                message: "有効な答えを入力してください。",
-              },
-            }}
-            disabled={needsAnswer() || isSending}
-          />
-          <div className={styles.chatFormSubmitButton}>
-            <GreenButton
-              disabled={
-                !chatForm.formState.isValid || isSending || needsAnswer()
-              }
-              type="submit"
-            >
-              <FontAwesomeIcon icon={faPaperPlane} />
-            </GreenButton>
-          </div>
-        </form>
-
-        {chatForm.formState.errors.message ? (
-          <ValidationError error={chatForm.formState.errors.message.message} />
-        ) : (
-          <></>
-        )}
-      </>
-    );
-  };
-
   const CorrectAnswer = () => {
     if (needsAnswer()) {
       return <></>;
     }
 
+    const SpeakCorrectAnswerButton = () => {
+      const handleSpeakCorrectAnswer = () => {
+        if (audioConfig.isPlaying) {
+          audioConfig.audio?.pause();
+          return setAudioConfig({ ...audioConfig, isPlaying: false });
+        }
+
+        audioConfig.audio?.play();
+        return setAudioConfig({
+          ...audioConfig,
+          isPlaying: true,
+        });
+      };
+
+      if (audioConfig.audio && audioConfig.speechAnswerUrl) {
+        return (
+          <button
+            onClick={handleSpeakCorrectAnswer}
+            className={styles.speakCorrectAnswerButton}
+          >
+            <FontAwesomeIcon
+              icon={audioConfig.isPlaying ? faPause : faPlay}
+            ></FontAwesomeIcon>
+          </button>
+        );
+      }
+
+      return <></>;
+    };
+
     return (
-      <div className={styles.correctAnswer}>
+      <div className={styles.correctAnswerWrapper}>
         <SmallBlackBoldText>答え</SmallBlackBoldText>
-        <MediumDarkBoldText>{data.data.answer}</MediumDarkBoldText>
+        <MediumDarkBoldText>
+          <div className={styles.correctAnswer}>
+            <SpeakCorrectAnswerButton />
+            {data.data.answer}
+          </div>
+        </MediumDarkBoldText>
       </div>
     );
   };
