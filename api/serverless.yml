@@ -66,7 +66,7 @@ functions:
   artisan:
     handler: artisan
     timeout: 900
-    memorySize: 128
+    memorySize: 256
     layers:
       - ${bref:layer.php-82-fpm}
       - ${bref-extra:gd-php-82}
