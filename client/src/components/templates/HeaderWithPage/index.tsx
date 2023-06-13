@@ -1,6 +1,7 @@
 import { Header } from "@/components/organisms/Header";
 import Head from "next/head";
 import styles from "./index.module.scss";
+import { useState } from "react";
 
 type Props = {
   children?: React.ReactNode;
@@ -9,6 +10,8 @@ type Props = {
 };
 
 export const HeaderWithPage = ({ children, title, description }: Props) => {
+  const [isOpeningMenu, setIsOpeningMenu] = useState(false);
+
   return (
     <>
       <Head>
@@ -16,7 +19,10 @@ export const HeaderWithPage = ({ children, title, description }: Props) => {
         <meta name="description" content={description} />
       </Head>
 
-      <Header />
+      <Header
+        isOpeningMenu={isOpeningMenu}
+        handleClickToggleMenuButton={() => setIsOpeningMenu(!isOpeningMenu)}
+      />
       <main className={styles.main}>{children}</main>
     </>
   );

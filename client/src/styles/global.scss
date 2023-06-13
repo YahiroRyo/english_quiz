@@ -1,6 +1,8 @@
 @use "@/styles/modules/screen.scss" as *;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 html {
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 16px;
 
   @include mq("lg") {
@@ -8,9 +10,6 @@ html {
   }
   @include mq("md") {
     font-size: 12px;
-  }
-  @include mq("sm") {
-    font-size: 10px;
   }
 }
 

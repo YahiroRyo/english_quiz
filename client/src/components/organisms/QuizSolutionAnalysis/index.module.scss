@@ -44,10 +44,22 @@
   white-space: pre-wrap;
 }
 
+.answerFormWrapper {
+  column-gap: 1rem;
+  display: flex;
+  width: 100%;
+}
+
 .chatForm,
 .answerForm {
-  display: flex;
   column-gap: 1rem;
+  display: flex;
+  width: 100%;
+
+  @include mq("md") {
+    flex-direction: column;
+    row-gap: 1rem;
+  }
 }
 
 .chatForm {
