@@ -45,6 +45,8 @@ jobs:
         AWS_URL: ${{ secrets.AWS_URL }}
         AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
         AWS_USE_PATH_STYLE_ENDPOINT: ${{ secrets.AWS_USE_PATH_STYLE_ENDPOINT }}
+        AWS_SPEECH_FILES_BUCKET: ${{ secrets.AWS_SPEECH_FILES_BUCKET }}
+        AWS_SPEECH_FILES_URL: ${{ secrets.AWS_SPEECH_FILES_URL }}
         MYSQL_ATTR_SSL_CA: ${{ secrets.MYSQL_ATTR_SSL_CA }}
         SESSION_DRIVER: ${{ secrets.SESSION_DRIVER }}
         CACHE_DRIVER: ${{ secrets.CACHE_DRIVER }}

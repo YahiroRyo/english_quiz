@@ -55,6 +55,8 @@ functions:
       AWS_URL: ${self:custom.environments.AWS_URL}
       AWS_BUCKET: ${self:custom.environments.AWS_BUCKET}
       AWS_USE_PATH_STYLE_ENDPOINT: ${self:custom.environments.AWS_USE_PATH_STYLE_ENDPOINT}
+      AWS_SPEECH_FILES_BUCKET: ${self:custom.environments.AWS_SPEECH_FILES_BUCKET}
+      AWS_SPEECH_FILES_URL: ${self:custom.environments.AWS_SPEECH_FILES_URL}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}
@@ -83,6 +85,8 @@ functions:
       AWS_URL: ${self:custom.environments.AWS_URL}
       AWS_BUCKET: ${self:custom.environments.AWS_BUCKET}
       AWS_USE_PATH_STYLE_ENDPOINT: ${self:custom.environments.AWS_USE_PATH_STYLE_ENDPOINT}
+      AWS_SPEECH_FILES_BUCKET: ${self:custom.environments.AWS_SPEECH_FILES_BUCKET}
+      AWS_SPEECH_FILES_URL: ${self:custom.environments.AWS_SPEECH_FILES_URL}
       MYSQL_ATTR_SSL_CA: ${self:custom.environments.MYSQL_ATTR_SSL_CA}
       SESSION_DRIVER: ${self:custom.environments.SESSION_DRIVER}
       CACHE_DRIVER: ${self:custom.environments.CACHE_DRIVER}

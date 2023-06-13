@@ -2,6 +2,9 @@
 
 namespace Eng\Quiz\Service\Command;
 
+use Eng\Aws\Domain\DTO\TextToSpeechDTO;
+use Eng\Aws\Domain\Entity\VoiceId;
+use Eng\Aws\Infrastructure\Repository\Interface\PollyRepository;
 use Eng\Quiz\Infrastructure\Repository\Interface\QuizRepository;
 use Eng\Chatgpt\Infrastructure\Repository\Interface\ChatgptRepository;
 use Eng\Quiz\Domain\DTO\QuizDTO;
@@ -18,17 +21,20 @@ class CreateQuizService
     private QuizCategoryRepository $quizCategoryRepo;
     private CreatableQuizStatusRepository $creatableQuizStatusRepo;
     private ChatgptRepository $chatgptRepo;
+    private PollyRepository $pollyRepo;
 
     public function __construct(
         QuizRepository $quizRepo,
         QuizCategoryRepository $quizCategoryRepo,
         CreatableQuizStatusRepository $creatableQuizStatusRepo,
-        ChatgptRepository $chatgptRepo
+        ChatgptRepository $chatgptRepo,
+        PollyRepository $pollyRepo
     ) {
         $this->quizRepo = $quizRepo;
         $this->quizCategoryRepo = $quizCategoryRepo;
         $this->creatableQuizStatusRepo = $creatableQuizStatusRepo;
         $this->chatgptRepo = $chatgptRepo;
+        $this->pollyRepo = $pollyRepo;
     }
 
     /** @return QuizEntity[] */
@@ -51,11 +57,17 @@ class CreateQuizService
             $quizList = $this->quizRepo->createQuizList(
                 array_map(
                     function (array $quizFromChatMessage) use ($quizCategory, $userId, $prompt) {
+                        $speechAnswerUrl = $this->pollyRepo->textToSpeech(TextToSpeechDTO::from(
+                            $quizFromChatMessage['answer'],
+                            VoiceId::US_STEPHEN,
+                        ));
+
                         return QuizDTO::from(
                             QuizConstants::DEFAULT_QUIZ_ID,
                             $userId,
                             $quizFromChatMessage['question'],
                             $quizFromChatMessage['answer'],
+                            $speechAnswerUrl,
                             $prompt,
                             $quizCategory,
                             QuizResponseDTO::from(

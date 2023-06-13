@@ -23,6 +23,7 @@ export type Quiz = {
   quizId: number;
   question: string;
   answer: string;
+  speechAnswerUrl?: string;
   category: QuizCategory;
   response?: QuizResponse;
 };

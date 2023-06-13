@@ -74,4 +74,15 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Speech files
+    |--------------------------------------------------------------------------
+    */
+
+    'speech_files' => [
+        'bucket' => env('AWS_SPEECH_FILES_BUCKET'),
+        'url' => env('AWS_SPEECH_FILES_URL'),
+    ]
 ];
