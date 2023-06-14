@@ -34,7 +34,7 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
                     'Authorization' => 'Bearer ' . config('chatgpt.token'),
                 ],
                 'json'    => [
-                    'model'       => 'gpt-3.5-turbo',
+                    'model'       => 'gpt-3.5-turbo-0613',
                     'messages'    => $messages,
                     'temperature' => 0.7,
                     'max_tokens'  => 2048,

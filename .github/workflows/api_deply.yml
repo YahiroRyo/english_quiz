@@ -32,6 +32,7 @@ jobs:
       run: composer install -n --prefer-dist
     - name: setting yml
       env:
+        IAM_ROLE: ${{ secrets.IAM_ROLE }}
         APP_KEY: ${{ secrets.APP_KEY }}
         CHAT_GPT_TOKEN: ${{ secrets.CHAT_GPT_TOKEN }}
         LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
