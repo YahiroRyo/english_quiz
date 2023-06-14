@@ -2,6 +2,7 @@
 
 main() {
     {
+        echo "IAM_ROLE: $IAM_ROLE"
         echo "APP_KEY: $APP_KEY"
         echo "CHAT_GPT_TOKEN: $CHAT_GPT_TOKEN"
         echo "LOG_CHANNEL: $LOG_CHANNEL"
