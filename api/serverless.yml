@@ -17,8 +17,6 @@ provider:
   stage: dev
   runtime: provided.al2
   memorySize: 512
-  iam:
-    role: ${self:custom.environments.IAM_ROLE}
   environment:
     APP_NAME: EnglishQuiz
     APP_ENV: production
