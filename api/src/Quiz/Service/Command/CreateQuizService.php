@@ -5,50 +5,56 @@ namespace Eng\Quiz\Service\Command;
 use Eng\Aws\Domain\DTO\TextToSpeechDTO;
 use Eng\Aws\Domain\Entity\VoiceId;
 use Eng\Aws\Infrastructure\Repository\Interface\PollyRepository;
+use Eng\Chatgpt\Domain\DTO\InitChatDTO;
 use Eng\Quiz\Infrastructure\Repository\Interface\QuizRepository;
 use Eng\Chatgpt\Infrastructure\Repository\Interface\ChatgptRepository;
 use Eng\Quiz\Domain\DTO\QuizDTO;
 use Eng\Quiz\Domain\DTO\QuizResponseDTO;
 use Eng\Quiz\Domain\Entity\QuizConstants;
 use Eng\Quiz\Domain\Entity\QuizEntity;
-use Eng\Quiz\Infrastructure\Repository\Interface\CreatableQuizStatusRepository;
 use Eng\Quiz\Infrastructure\Repository\Interface\QuizCategoryRepository;
+use Eng\User\Infrastructure\Repository\Interface\UserRepository;
 use Illuminate\Support\Facades\DB;
 
 class CreateQuizService
 {
+    private UserRepository $userRepo;
     private QuizRepository $quizRepo;
     private QuizCategoryRepository $quizCategoryRepo;
-    private CreatableQuizStatusRepository $creatableQuizStatusRepo;
     private ChatgptRepository $chatgptRepo;
     private PollyRepository $pollyRepo;
 
     public function __construct(
+        UserRepository $userRepo,
         QuizRepository $quizRepo,
         QuizCategoryRepository $quizCategoryRepo,
-        CreatableQuizStatusRepository $creatableQuizStatusRepo,
         ChatgptRepository $chatgptRepo,
         PollyRepository $pollyRepo
     ) {
+        $this->userRepo = $userRepo;
         $this->quizRepo = $quizRepo;
         $this->quizCategoryRepo = $quizCategoryRepo;
-        $this->creatableQuizStatusRepo = $creatableQuizStatusRepo;
         $this->chatgptRepo = $chatgptRepo;
         $this->pollyRepo = $pollyRepo;
     }
 
     /** @return QuizEntity[] */
-    public function execute(int $quizCategoryId, int $userId): array
+    public function execute(int $quizCategoryId): array
     {
         $quizCategory = $this->quizCategoryRepo->findOneByQuizCategoryId($quizCategoryId);
 
         $prompt = QuizConstants::createQuizPrompt($quizCategory->getFormalName());
-        $createdChatMessage = $this->chatgptRepo->createChatOne($prompt);
+        $createdChatMessage = $this->chatgptRepo->createChat(InitChatDTO::from(
+            $prompt,
+            []
+        ));
 
-        return DB::transaction(function () use ($quizCategory, $userId, $prompt, $createdChatMessage) {
+        $me = $this->userRepo->findMe();
+
+        return DB::transaction(function () use ($quizCategory, $me, $prompt, $createdChatMessage) {
             /** @var array */
             $quizListFromChatMessage = json_decode(
-                QuizConstants::BEGIN_JSON_FOR_CREATE_QUIZ_PROMPT . $createdChatMessage->getContent(),
+                $createdChatMessage->getContent(),
                 true,
                 512,
                 JSON_THROW_ON_ERROR
@@ -56,7 +62,7 @@ class CreateQuizService
 
             $quizList = $this->quizRepo->createQuizList(
                 array_map(
-                    function (array $quizFromChatMessage) use ($quizCategory, $userId, $prompt) {
+                    function (array $quizFromChatMessage) use ($quizCategory, $me, $prompt) {
                         $speechAnswerUrl = $this->pollyRepo->textToSpeech(TextToSpeechDTO::from(
                             $quizFromChatMessage['answer'],
                             VoiceId::US_STEPHEN,
@@ -64,7 +70,7 @@ class CreateQuizService
 
                         return QuizDTO::from(
                             QuizConstants::DEFAULT_QUIZ_ID,
-                            $userId,
+                            $me->getUserId(),
                             $quizFromChatMessage['question'],
                             $quizFromChatMessage['answer'],
                             $speechAnswerUrl,
@@ -81,8 +87,6 @@ class CreateQuizService
                     $quizListFromChatMessage['quizzes']
                 )
             );
-
-            $this->creatableQuizStatusRepo->delete($userId);
 
             return array_map(
                 function (QuizDTO $quiz) {

@@ -3,14 +3,20 @@
 namespace App\Http\Response\Quiz;
 
 use App\Http\Response\Response;
+use Eng\Quiz\Domain\Entity\QuizEntity;
 
 class CreateQuizListResponse
 {
-    public static function success()
+    /**
+     * @param QuizEntity[] $quizList
+     */
+    public static function success(array $quizList)
     {
         return Response::success(
-            'クイズを作成中です。しばらくお待ちください。',
-            [],
+            'クイズの作成を完了しました。',
+            array_map(function (QuizEntity $quizEntity) {
+                return $quizEntity->toJson();
+            },$quizList),
             202
         );
     }
