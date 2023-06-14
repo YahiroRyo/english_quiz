@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import styles from "./index.module.scss";
 import { apiCreateQuizList } from "@/modules/api/quiz";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useState } from "react";
 import { ErrorResponse, errorDictToString } from "@/types/response";
 import { ERROR_MESSAGE } from "@/constants/api";
@@ -51,7 +51,9 @@ export const CreateQuizRequestButton = () => {
 
   const handleClickButton = async () => {
     try {
+      setIsDisabled(true);
       await apiCreateQuizList(data.data.quizCategoryId, user?.token!);
+      setIsDisabled(false);
     } catch (e) {
       if (axios.isAxiosError(e)) {
         const response = e.response!.data as ErrorResponse;
@@ -69,7 +71,6 @@ export const CreateQuizRequestButton = () => {
       setCreateQuizListResError(ERROR_MESSAGE.UNKNOWN_ERROR);
       return;
     }
-    setIsDisabled(true);
   };
 
   if (createQuizListResError) {

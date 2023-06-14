@@ -9,12 +9,9 @@ class QuizConstants
     public const DEFAULT_QUIZ_RESPONSE_ID          = 0;
     public const DEFAULT_QUIZ_RESPONSE_REPLY_ID    = 0;
     public const UNRESPONSIVE                      = '__UNRESPONSIVE__';
-    public const BEGIN_JSON_FOR_CREATE_QUIZ_PROMPT = '{"quizzes":[';
 
     public static function createQuizPrompt(string $wordClass): string
     {
-        $beginJson = self::BEGIN_JSON_FOR_CREATE_QUIZ_PROMPT;
-
         return <<<EOM
         #命令書:
         あなたは、[日本人学生を対象としたアメリカ人プロの英語講師]です。以下の制約条件に基づいて、特定の文法ポイントや語彙テーマに関連する英訳問題を10問作成してください。
@@ -25,8 +22,6 @@ class QuizConstants
         - 問題文は日本語で、問題文の翻訳後が答えになるようにしてください
         - 翻訳後は必ず文にしてください
         - 出力フォーマットは、questionとanswerキーのJSON形式で出力を行い、それらをquizzesキーの配列でラップしてください
-        # 出力文:
-        {$beginJson}
         EOM;
     }
 
