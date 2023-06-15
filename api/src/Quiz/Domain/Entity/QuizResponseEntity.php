@@ -66,9 +66,22 @@ class QuizResponseEntity
         return [
             'response'  => $this->getResponse(),
             'isCorrect' => $this->getIsCorrect(),
-            'replyList' => array_map(function (QuizResponseReplyEntity $quizResponseReplyEntity) {
-                return $quizResponseReplyEntity->toJson();
-            }, $this->getReplyList()),
+            'replyList' => collect($this->getReplyList())
+                ->filter(function (QuizResponseReplyEntity $quizResponseReplyEntity, int $index) {
+                    if ($index === 0) {
+                        return false;
+                    }
+                    if ($quizResponseReplyEntity->getRole() === ChatRole::FUNCTION) {
+                        return false;
+                    }
+
+                    return true;
+                })
+                ->map(function(QuizResponseReplyEntity $quizResponseReplyEntity) {
+                    return $quizResponseReplyEntity->toJson();
+                })
+                ->values()
+                ->toArray(),
         ];
     }
 
@@ -103,6 +116,7 @@ class QuizResponseEntity
                     ChatRole::from($quizResponseReplyDTO->getRole()),
                     $quizResponseReplyDTO->getQuizResponseReplyId(),
                     $quizResponseReplyDTO->getMessage(),
+                    $quizResponseReplyDTO->getFunctionName(),
                     $quizResponseReplyDTO->getSendedAt(),
                 );
             }, $quizResponseDTO->getReplyList()),

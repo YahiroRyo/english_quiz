@@ -25,6 +25,10 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
             }, $initChatDTO->getMessageList())
         );
 
+        $functions = $initChatDTO->getFunctionList() === [] ?
+            [] :
+            [ 'functions' => $initChatDTO->getFunctionList()];
+
         $response = $this->client->request(
             'POST',
             'https://api.openai.com/v1/chat/completions',
@@ -33,12 +37,12 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
                     'Content-Type' => 'application/json',
                     'Authorization' => 'Bearer ' . config('chatgpt.token'),
                 ],
-                'json'    => [
+                'json'    => array_merge([
                     'model'       => 'gpt-3.5-turbo-0613',
                     'messages'    => $messages,
                     'temperature' => 0.7,
                     'max_tokens'  => 2048,
-                ],
+                ], $functions)
             ]
         );
 
@@ -46,6 +50,13 @@ class ChatgptRepository implements \Eng\Chatgpt\Infrastructure\Repository\Interf
         $responseMessage = $content['choices'][0]['message'];
 
         logs()->info($responseMessage);
+
+        if (array_key_exists('function_call', $responseMessage)) {
+            return ChatMessageDTO::from(
+                ChatRole::from($responseMessage['role']),
+                $responseMessage["function_call"]["arguments"]
+            );
+        }
 
         return ChatMessageDTO::from(
             ChatRole::from($responseMessage['role']),

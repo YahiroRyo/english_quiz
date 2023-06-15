@@ -181,6 +181,10 @@ export const QuizSolutionAnalysis = () => {
 
     const SpeakCorrectAnswerButton = () => {
       const handleSpeakCorrectAnswer = () => {
+        audioConfig.audio?.addEventListener("ended", () => {
+          setAudioConfig({ ...audioConfig, isPlaying: false });
+        });
+
         if (audioConfig.isPlaying) {
           audioConfig.audio?.pause();
           return setAudioConfig({ ...audioConfig, isPlaying: false });
