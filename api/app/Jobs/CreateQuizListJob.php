@@ -45,8 +45,8 @@ class CreateQuizListJob implements ShouldQueue
                 'version' => 'latest',
                 'region' => 'ap-northeast-1',
                 'credentials' => [
-                    'key'    => config('filesystems.disks.s3.key'),
-                    'secret' => config('filesystems.disks.s3.secret')
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY')
                 ]
             ])),
         );

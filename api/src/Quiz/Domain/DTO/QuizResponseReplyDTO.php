@@ -10,6 +10,7 @@ class QuizResponseReplyDTO
     private int $quizResponseId;
     private string $role;
     private string $message;
+    private string $functionName;
     private CarbonImmutable $sendedAt;
 
     private function __construct(
@@ -17,12 +18,14 @@ class QuizResponseReplyDTO
         int $quizResponseId,
         string $role,
         string $message,
+        string $functionName,
         CarbonImmutable $sendedAt,
     ) {
         $this->quizResponseReplyId = $quizResponseReplyId;
         $this->quizResponseId = $quizResponseId;
         $this->role = $role;
         $this->message = $message;
+        $this->functionName = $functionName;
         $this->sendedAt = $sendedAt;
     }
 
@@ -46,6 +49,11 @@ class QuizResponseReplyDTO
         return $this->message;
     }
 
+    public function getFunctionName(): string
+    {
+        return $this->functionName;
+    }
+
     public function getSendedAt(): CarbonImmutable
     {
         return $this->sendedAt;
@@ -56,6 +64,7 @@ class QuizResponseReplyDTO
         int $quizResponseId,
         string $role,
         string $message,
+        string $functionName,
         CarbonImmutable $sendedAt,
     ): self {
         return new self(
@@ -63,6 +72,7 @@ class QuizResponseReplyDTO
             $quizResponseId,
             $role,
             $message,
+            $functionName,
             $sendedAt,
         );
     }

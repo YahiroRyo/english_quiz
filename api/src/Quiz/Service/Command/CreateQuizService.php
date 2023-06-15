@@ -46,6 +46,7 @@ class CreateQuizService
         $prompt = QuizConstants::createQuizPrompt($quizCategory->getFormalName());
         $createdChatMessage = $this->chatgptRepo->createChat(InitChatDTO::from(
             $prompt,
+            [],
             []
         ));
 

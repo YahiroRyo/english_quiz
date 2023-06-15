@@ -10,17 +10,20 @@ class QuizResponseReplyEntity
     private ChatRole $role;
     private int $quizResponseReplyId;
     private string $message;
+    private string $functionName;
     private CarbonImmutable $sendedAt;
 
     private function __construct(
         ChatRole $role,
         int $quizResponseReplyId,
         string $message,
+        string $functionName,
         CarbonImmutable $sendedAt,
     ) {
         $this->role = $role;
         $this->quizResponseReplyId = $quizResponseReplyId;
         $this->message = $message;
+        $this->functionName = $functionName;
         $this->sendedAt = $sendedAt;
     }
 
@@ -39,6 +42,11 @@ class QuizResponseReplyEntity
         return $this->message;
     }
 
+    public function getFunctionName(): string
+    {
+        return $this->functionName;
+    }
+
     public function getSendedAt(): CarbonImmutable
     {
         return $this->sendedAt;
@@ -50,6 +58,7 @@ class QuizResponseReplyEntity
             'role'                => $this->getRole(),
             'quizResponseReplyId' => $this->getResponseReplyId(),
             'message'             => $this->getMessage(),
+            'functionName'        => $this->getFunctionName(),
             'sendedAt'            => $this->getSendedAt()->toISOString(),
         ];
     }
@@ -58,12 +67,14 @@ class QuizResponseReplyEntity
         ChatRole $role,
         int $quizResponseReplyId,
         string $message,
+        string $functionName,
         CarbonImmutable $sendedAt,
     ): self {
         return new self(
             $role,
             $quizResponseReplyId,
             $message,
+            $functionName,
             $sendedAt,
         );
     }
