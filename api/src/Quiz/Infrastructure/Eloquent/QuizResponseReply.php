@@ -17,6 +17,7 @@ class QuizResponseReply extends Model
         'quiz_response_id',
         'role',
         'message',
+        'function_name',
     ];
 
     public function getQuizResponseReplyId(): int
@@ -37,6 +38,11 @@ class QuizResponseReply extends Model
     public function getMessage(): string
     {
         return $this->message;
+    }
+
+    public function getFunctionName(): string
+    {
+        return $this->function_name;
     }
 
     public function getResponseId(): string

@@ -90,6 +90,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                         'quiz_response_id' => $forSaveQuizResponseReplyDTO->getQuizResponseId(),
                         'role'             => $forSaveQuizResponseReplyDTO->getRole(),
                         'message'          => $forSaveQuizResponseReplyDTO->getMessage(),
+                        'function_name'    => $forSaveQuizResponseReplyDTO->getFunctionName()
                     ]);
                 });
 
@@ -111,6 +112,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                         'quiz_response_id' => $createdQuizResponse->getQuizResponseId(),
                         'role'             => $quizResponseReplyDTO->getRole(),
                         'message'          => $quizResponseReplyDTO->getMessage(),
+                        'function_name'    => $quizResponseReplyDTO->getFunctionName()
                     ]);
 
                     return QuizResponseReplyDTO::from(
@@ -118,6 +120,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                         $createdQuizResponse->getQuizResponseId(),
                         $quizResponseReply->getRole(),
                         $quizResponseReply->getMessage(),
+                        $quizResponseReply->getFunctionName(),
                         $quizResponseReply->getSendedAt(),
                     );
                 })
@@ -180,6 +183,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                                         $quizResponseReply->getQuizResponseId(),
                                         $quizResponseReply->getRole(),
                                         $quizResponseReply->getMessage(),
+                                        $quizResponseReply->getFunctionName(),
                                         $quizResponseReply->getSendedAt(),
                                     );
                                 })
@@ -254,6 +258,7 @@ class QuizRepository implements \Eng\Quiz\Infrastructure\Repository\Interface\Qu
                                 $quizResponseReply->getQuizResponseId(),
                                 $quizResponseReply->getRole(),
                                 $quizResponseReply->getMessage(),
+                                $quizResponseReply->getFunctionName(),
                                 $quizResponseReply->getSendedAt(),
                             );
                         })

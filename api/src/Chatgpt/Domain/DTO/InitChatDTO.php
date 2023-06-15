@@ -7,13 +7,16 @@ class InitChatDTO
     private string $prompt;
     /** @var ChatMessageDTO[] */
     private array $messageList;
+    private array $functionList;
 
     private function __construct(
         string $prompt,
         array $messageList,
+        array $functionList,
     ) {
         $this->prompt = $prompt;
         $this->messageList = $messageList;
+        $this->functionList = $functionList;
     }
 
     public function getPrompt(): string
@@ -27,10 +30,16 @@ class InitChatDTO
         return $this->messageList;
     }
 
+    public function getFunctionList(): array
+    {
+        return $this->functionList;
+    }
+
     public static function from(
         string $prompt,
         array $messageList,
+        array $functionList,
     ): self {
-        return new self($prompt, $messageList);
+        return new self($prompt, $messageList, $functionList);
     }
 }

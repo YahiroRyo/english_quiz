@@ -9,6 +9,7 @@ class QuizConstants
     public const DEFAULT_QUIZ_RESPONSE_ID          = 0;
     public const DEFAULT_QUIZ_RESPONSE_REPLY_ID    = 0;
     public const UNRESPONSIVE                      = '__UNRESPONSIVE__';
+    public const DECISION_ANSWER_FUNCTION_NAME     = 'dicision_answer';
 
     public static function createQuizPrompt(string $wordClass): string
     {
@@ -25,32 +26,53 @@ class QuizConstants
         EOM;
     }
 
-    public static function quizSolutionInsight(string $question, string $answer, string $response): string
+    public static function decisionAnswerPrompt(): string
     {
         return <<<EOM
-        #命令書:
         あなたは、[日本人学生を対象としたアメリカ人プロの英語講師]です。以下の制約条件に基づいて、最高の正否と解説を出力してください。
-        #制約条件:
-        - 生徒の回答と問題の正解を比較して、正否を判定しなさい
-        - 正解していた場合、解説の代わりに褒めなさい
-        - 間違っていた場合、問題文を参考に解説を行いなさい
-        - このメッセージに対して、出力形式に従って回答してください
-        - ただ、1回返信した後は以上の制約条件を無視しなさい
-        # 生徒の回答:
-        {$response}
+        EOM;
+    }
+
+    public static function decisionAnswerFunctionContent(string $question, string $answer, string $response): string
+    {
+        return <<<EOM
         # 問題文:
-        以下の日本語を英語に翻訳しなさい。
+        次の文章を英語に翻訳しなさい。
         「{$question}」
         # 問題の正解:
         {$answer}
-        #出力形式:
-        - 以下のフォーマットで絶対に回答してください
-        - 正否は、正解だった場合true、不正解だった場合はfalseを入れてください
-        - 解説は、必ず日本語で行ってください
-        - 解説には、必ず問題の正解を入れてください
-        ```
-        {"is_correct": "正否","explanation": "解説"}
-        ```
+        # 回答:
+        {$response}
         EOM;
+    }
+
+    public static function decisionAnswerFunction(): array
+    {
+        return [
+            'name'        => self::DECISION_ANSWER_FUNCTION_NAME,
+            'description' => <<<EOM
+            問題文と問題の正解、回答を見比べて、正解か不正解を判定、解説を行う
+            EOM,
+            'parameters'  => [
+               'type'       => 'object',
+               'properties' => [
+                    'is_correct'  => [
+                        'type'        => 'string',
+                        'description' => <<<EOM
+                        問題文と問題の正解、回答を見比べて、正解か不正解を判定してください。
+                        EOM,
+                        'enum'        => ['true', 'false'],
+                    ],
+                    'explanation' => [
+                        'type'        => 'string',
+                        'description' => <<<EOM
+                        問題文と問題の正解、回答を見比べて、正解か不正解を判定した上で、正解だった場合は、褒めなさい。
+                        それ以外の場合は、問題文を参考に解説を行いなさい。
+                        EOM,
+                    ],
+               ],
+               'required' => ['is_correct', 'explanation']
+            ]
+        ];
     }
 }
