@@ -64,17 +64,17 @@ class CreateQuizService
             $quizList = $this->quizRepo->createQuizList(
                 array_map(
                     function (array $quizFromChatMessage) use ($quizCategory, $me, $prompt) {
-                        $speechAnswerUrl = $this->pollyRepo->textToSpeech(TextToSpeechDTO::from(
-                            $quizFromChatMessage['answer'],
-                            VoiceId::US_STEPHEN,
-                        ));
+                        // $speechAnswerUrl = $this->pollyRepo->textToSpeech(TextToSpeechDTO::from(
+                        //     $quizFromChatMessage['answer'],
+                        //     VoiceId::US_STEPHEN,
+                        // ));
 
                         return QuizDTO::from(
                             QuizConstants::DEFAULT_QUIZ_ID,
                             $me->getUserId(),
                             $quizFromChatMessage['question'],
                             $quizFromChatMessage['answer'],
-                            $speechAnswerUrl,
+                            QuizConstants::DEFAULT_QUIZ_SPEECH_ANSWER_URL,
                             $prompt,
                             $quizCategory,
                             QuizResponseDTO::from(
